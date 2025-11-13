@@ -1,0 +1,182 @@
+﻿@model Ems.Data.Models.Domain.EditEmployee
+
+@{
+    ViewData["Title"] = "Edit";
+    var roleList = new SelectList(ViewBag.Roles as List<string>);
+    var statusList = new SelectList(ViewBag.Statuses as List<string>);
+}
+<style>
+    body {
+        background-image: url("/images/backgr.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .mt-3 {
+        background-color: darkslategray;
+        width: 60%;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+    .form-control{
+        padding: 0.25rem 0.5rem;
+        height: auto;
+        width: 50%;
+        justify-content:center;
+        display:flex;
+        margin-left:205px;
+    }
+
+    .form-label{
+        margin-left: 205px;
+        color:antiquewhite;
+        font-weight:bold;
+    }
+    h3{
+        color:antiquewhite;
+    }
+    .btn{
+        margin-left: 340px;
+        margin-bottom:30px;
+        margin-top:30px;
+        background-color:aquamarine;
+        color:navy;
+        font-weight:bold;
+    }
+    .btn:hover{
+        background-color:midnightblue;
+        color:aqua;
+    }
+    .desc{
+        background-color:darkslategray;
+        color:antiquewhite;
+        width:660px;
+        margin-left:300px;
+        margin-bottom:45px;
+        margin-top:45px;
+        justify-content:center;
+        border-radius:10px;
+        padding-left:10px;
+        padding-bottom:15px;
+        padding-top:20px;
+       
+    }
+  p{
+      margin-left:5px;
+  }
+</style>
+<div class="d-flex justify-content-start mb-3" style="max-width: 600px; margin: 0 auto;">
+    <a href="/Employee/DisplayAll" class="btn btn-primary">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+
+</div>
+<div class="desc">
+    <p>
+        Use this form to update an employee's role (e.g., Admin, Manager, Staff) or status (e.g., Active, Inactive). Select the desired values from the dropdown menus and click Update to save the changes.
+    </p>
+</div>
+<div class="container mt-3">
+    <h3 class="text-center mb-3">Edit Employee</h3>
+
+
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <validation-summary asp-validation-summary="All" class="text-danger"></validation-summary>
+
+        <input type="hidden" asp-for="EmpID" />
+
+        <div class="mb-1">
+            <label asp-for="EmpRole" class="form-label">Role</label>
+            <select asp-for="EmpRole" class="form-control" asp-items="roleList">
+                <option value="" disabled selected>-- Select Role --</option>
+            </select>
+            <span asp-validation-for="EmpRole" class="text-danger"></span>
+        </div>
+
+        <div class="mb-1">
+            <label asp-for="EmpStatus" class="form-label">Status</label>
+            <select asp-for="EmpStatus" class="form-control" asp-items="statusList">
+                <option value="" disabled selected>-- Select Status --</option>
+            </select>
+            <span asp-validation-for="EmpStatus" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-success">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @TempData["SuccessMessage"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal (optional) -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-danger">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @TempData["ErrorMessage"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            const empIdInput = document.getElementById('empIdToDelete');
+
+            if (empIdInput) {
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const empId = this.getAttribute('data-empid');
+                        if(empId) {
+                            empIdInput.value = empId;
+                        }
+                    });
+                });
+            }
+
+            // Show success modal if there is a success message
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage && successMessage.trim() !== '') {
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            }
+
+            // Show error modal if there is an error message
+            var errorMessage = '@TempData["ErrorMessage"]';
+            if (errorMessage && errorMessage.trim() !== '') {
+                var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
+            }
+        });
+    </script>
+
+
+       @*  <div class="text-center">
+            <a asp-controller="Employee" asp-action="Edit" class="btn btn-primary">Go to List</a>
+        </div> *@
+
+    
+</div>

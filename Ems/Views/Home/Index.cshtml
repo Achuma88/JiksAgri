@@ -1,0 +1,159 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["msg"]
+    </div>
+}
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        background-image:url("/images/c75.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 100vh;
+        margin: 0;
+        background-attachment: fixed;
+    }
+
+    .text-center {
+        color:midnightblue;
+        font-weight:bolder;
+        padding-top: 100px;
+    }
+
+    .features {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin: 50px 0;
+        color: whitesmoke;
+        background-color:darkcyan;
+        border-radius:25px;
+    }
+
+    .feature {
+        text-align: center;
+        max-width: 200px;
+        padding:30px;
+    }
+
+
+    .health-motivation {
+        background-color: darkcyan;
+        padding: 50px 20px;
+        color: #fff;
+        text-align: center;
+        border-radius: 12px;
+        margin: 60px auto;
+        max-width: 800px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .health-content h2 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+
+    .health-content p {
+        font-size: 1.2em;
+        margin-bottom: 25px;
+    }
+
+    .health-tips {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto 30px auto;
+        max-width: 500px;
+        text-align: left;
+    }
+
+        .health-tips li {
+            font-size: 1.1em;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .health-tips i {
+            color: #fff700;
+            margin-right: 12px;
+            font-size: 1.3em;
+        }
+
+    blockquote {
+        font-style: italic;
+        font-size: 1.1em;
+        color: #fffde7;
+        margin-top: 20px;
+    }
+
+    .btn-primary{
+        background-color: antiquewhite; /* Cream background */
+        color:midnightblue; /* Dark green text */
+        border: 2px solid midnightblue;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .btn-primary:hover{
+            background-color: midnightblue; /* Bootstrap's green */
+            color: white;
+            border-color: white;
+            text-decoration: none;
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Swift </h1>
+    <p>Optimized to be efficient and effective</p>
+</div>
+<div class="features">
+    <div class="feature">
+        <i class="fas fa-user-check fa-2x"></i>
+        <h3>Manage Employees</h3>
+        <p>Easily add, update, or remove staff.</p>
+    </div>
+    <div class="feature">
+        <i class="fas fa-chart-line fa-2x"></i>
+        <h3>Track Performance</h3>
+        <p>Analyze employee metrics and KPIs.</p>
+    </div>
+    <div class="feature">
+        <i class="fas fa-address-book fa-2x"></i>
+        <h3>Employee Directory</h3>
+        <p>View and search employee profiles easily.</p>
+    </div>
+    <div class="feature">
+        <i class="fas fa-user-shield fa-2x"></i>
+        <h3>Role-Based Access</h3>
+        <p>Secure features based on user roles and permissions.</p>
+    </div>
+</div>
+<div class="text-center">
+    <h1 class="display-4">Some "fruit" for thought.</h1>
+    
+</div>
+<section class="health-motivation">
+    <div class="health-content">
+        <h2>Stay Healthy, Stay Inspired 💪</h2>
+        <p>Your health is your real wealth. Every small habit counts—whether it's a morning walk, drinking water, or taking a deep breath.</p>
+        <ul class="health-tips">
+            <li><i class="fas fa-apple-alt"></i> Eat fresh fruits and vegetables daily</li>
+            <li><i class="fas fa-walking"></i> Walk at least 30 minutes a day</li>
+            <li><i class="fas fa-water"></i> Stay hydrated — drink 6–8 glasses of water</li>
+            <li><i class="fas fa-bed"></i> Prioritize 7–8 hours of sleep</li>
+            <li><i class="fas fa-smile-beam"></i> Take breaks — your mental health matters</li>
+        </ul>
+        <blockquote>"Take care of your body. It’s the only place you have to live." – Jim Rohn</blockquote>
+       
+    </div>
+</section>
+
+

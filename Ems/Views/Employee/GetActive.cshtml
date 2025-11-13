@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Ems.Data.Models.Domain.Employee>
+
+@{
+    ViewData["Title"] = "ActiveEmployees";
+}
+
+<h2>Active Employees</h2>
+
+@if (!Model.Any())
+{
+    <p>No active employees found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in Model)
+            {
+                <tr>
+                    <td>@emp.EmpID</td>
+                    <td>@emp.EmpName @emp.EmpSurname</td>
+                    <td>@emp.EmpEmail</td>
+                    <td>@emp.EmpRole</td>
+                    <td>
+                        <span class="@(emp.EmpStatus == "Active" ? "text-success" : "text-danger") font-weight-bold">
+                            @emp.EmpStatus
+                        </span>
+                    </td>
+                    <td>@emp.EmpPhone</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
