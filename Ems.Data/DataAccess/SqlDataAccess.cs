@@ -1,10 +1,10 @@
 ﻿using Dapper;
-using Ems.Data.DataAccess;
+using JiksAgriFarm.Data.DataAccess;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 
-namespace Ems.Data.DataAccess
+namespace JiksAgriFarm.Data.DataAccess
 {
     public class SqlDataAccess : ISqlDataAccess
     {

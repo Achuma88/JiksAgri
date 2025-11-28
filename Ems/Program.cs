@@ -1,6 +1,5 @@
-using Ems.Data.DataAccess;
-using Ems.Data.Repositories;
-using Ems.Data.Repository;
+using JiksAgriFarm.Data.DataAccess;
+using JiksAgriFarm.Data.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +8,10 @@ builder.Services.AddControllersWithViews();
 
 // Register data access and repositories (only once per interface)
 builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>();
-builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-builder.Services.AddScoped<ILoginRepository, LoginRepository>();
-builder.Services.AddScoped<IStaffRepository, StaffRepository>();
-builder.Services.AddScoped<IReportRepository, ReportsRepository>();
+builder.Services.AddScoped<IFarmerRepository, FarmerRepository>();
+//builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddAuthentication("MyCookieAuth")
     .AddCookie("MyCookieAuth", options =>
     {
@@ -42,6 +41,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

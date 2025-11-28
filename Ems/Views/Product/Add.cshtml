@@ -1,4 +1,4 @@
-﻿@model Ems.Data.Models.Domain.Employee
+﻿@model JiksAgriFarm.Data.Models.Domain.Product
 
 @{
     ViewData["Title"] = "Add";
@@ -7,12 +7,12 @@
 }
 
 <style>
-   
+
 
     body {
         background-image: url("/images/backgr.jpg");
-        background-repeat:no-repeat;
-        background-size:cover;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 
     .small-input {
@@ -20,19 +20,21 @@
     }
 
     .card {
-        color:linen;
-        font-weight:bold;
-    }
-    .btn{
-        background-color:cyan;
-        color:navy;
+        color: linen;
         font-weight: bold;
     }
-    .btn:hover{
-        background-color:antiquewhite;
-        color:navy;
-        font-weight:bold;
+
+    .btn {
+        background-color: cyan;
+        color: navy;
+        font-weight: bold;
     }
+
+        .btn:hover {
+            background-color: antiquewhite;
+            color: navy;
+            font-weight: bold;
+        }
 </style>
 
 
@@ -46,81 +48,65 @@
 <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card p-4 shadow" style="width: 600px; background-color:darkslategray;">
         <h3 class="text-center mb-4">Add Employee</h3>
-<form asp-action="Add" method="post">
-    @Html.AntiForgeryToken()
+        <form asp-action="Add" method="post">
+            @Html.AntiForgeryToken()
 
-    <div class="mb-3">
-        <label asp-for="EmpName" class="form-label">Name</label>
-        <input asp-for="EmpName" class="form-control small-input" />
-        <span asp-validation-for="EmpName" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="ProductName" class="form-label">Product Name</label>
+                <input asp-for="ProductName" class="form-control small-input" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="EmpSurname" class="form-label">Surname</label>
-        <input asp-for="EmpSurname" class="form-control small-input" />
-        <span asp-validation-for="EmpSurname" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="ProductDescription" class="form-label">Product Description</label>
+                <input asp-for="ProductDescription" class="form-control small-input" />
+                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="EmpEmail" class="form-label">Email</label>
-        <input asp-for="EmpEmail" class="form-control small-input" />
-        <span asp-validation-for="EmpEmail" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="ProductPrice" class="form-label">Price</label>
+                <input asp-for="ProductPrice" class="form-control small-input" />
+                <span asp-validation-for="ProductPrice" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="EmpPhone" class="form-label">Cellphone Number</label>
-        <input asp-for="EmpPhone" class="form-control small-input" />
-        <span asp-validation-for="EmpPhone" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="ProductStock" class="form-label">Stock at hand</label>
+                <input asp-for="ProductStock" class="form-control small-input" />
+                <span asp-validation-for="ProductStock" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="EmpPassword" class="form-label">Password</label>
-        <input asp-for="EmpPassword" type="password" class="form-control small-input" />
-        <span asp-validation-for="EmpPassword" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="ProductUnit" class="form-label">Unit</label>
+                <input asp-for="ProductUnit" type="password" class="form-control small-input" />
+                <span asp-validation-for="ProductUnit" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
-        <input asp-for="ConfirmPassword" type="password" class="form-control small-input" />
-        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-    </div>
+           
 
-    <div class="mb-3">
-        <label asp-for="EmpRole" class="form-label">Role</label>
-        <select asp-for="EmpRole" class="form-control small-input">
-            <option value="">-- Select Role --</option>
-            @foreach (var role in roles)
+            <div class="mb-3">
+                <label asp-for="ProductStatus" class="form-label">Status</label>
+                <select asp-for="ProductStatus" class="form-control small-input">
+                    <option value="">-- Select Status --</option>
+                    @foreach (var status in statuses)
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </select>
+                <span asp-validation-for="ProductStatus" class="text-danger"></span>
+            </div>
+
+            @if (TempData["msg"] != null)
             {
-                <option value="@role">@role</option>
+                <div class="mb-3 text-success">
+                    @TempData["msg"]
+                </div>
             }
-        </select>
-        <span asp-validation-for="EmpRole" class="text-danger"></span>
-    </div>
 
-    <div class="mb-3">
-        <label asp-for="EmpStatus" class="form-label">Status</label>
-        <select asp-for="EmpStatus" class="form-control small-input">
-            <option value="">-- Select Status --</option>
-            @foreach (var status in statuses)
-            {
-                <option value="@status">@status</option>
-            }
-        </select>
-        <span asp-validation-for="EmpStatus" class="text-danger"></span>
-    </div>
+            <div class="text-center mb-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
 
-    @if (TempData["msg"] != null)
-    {
-        <div class="mb-3 text-success">
-            @TempData["msg"]
-        </div>
-    }
-
-    <div class="text-center mb-3">
-        <button type="submit" class="btn btn-primary">Save</button>
-    </div>
-</form>
-        
     </div>
 </div>
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
