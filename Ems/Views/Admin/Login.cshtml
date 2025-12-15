@@ -1,0 +1,154 @@
+﻿@model JiksAgriFarm.Data.Models.Domain.AdminLogin
+
+@{
+    ViewData["Title"] = "Admin";
+    Layout = null; // removes public navbar/layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - JiksAgriFarm</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            background: linear-gradient(135deg, #2e7d32, #66bb6a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: #ffffff;
+            width: 380px;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 5px;
+            color: #2e7d32;
+        }
+
+        .login-container p {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+            input:focus {
+                outline: none;
+                border-color: #2e7d32;
+            }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: #2e7d32;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+            .btn-login:hover {
+                background: #1b5e20;
+            }
+
+        .validation-summary {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 20px;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <p>JiksAgriFarm Administration</p>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary">
+                @Html.ValidationSummary()
+            </div>
+        }
+
+        <form asp-action="Login" method="post">
+            <div class="form-group">
+                <label asp-for="AdminEmail"></label>
+                <input asp-for="AdminEmail" placeholder="admin@jiksagrifarm.co.za" />
+                <span asp-validation-for="AdminEmail" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AdminPassword"></label>
+                <input asp-for="AdminPassword" type="password" placeholder="********" />
+                <span asp-validation-for="AdminPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn-login">Login</button>
+        </form>
+
+        <div class="footer">
+            © 2025 JiksAgriFarm
+        </div>
+    </div>
+
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🧑‍💼 Employee Management System (EMS)
 
 The **Employee Management System (EMS)** is a web-based application developed using **ASP.NET Core MVC** and **Dapper** for efficient data access.  
@@ -45,3 +46,7 @@ It provides a centralized platform for managing employee records, user authentic
    git clone https://github.com/Achuma88/EmployeeManagementSystem.git
    cd EmployeeManagementSystem
 
+=======
+# JiksAgri
+Online agriculture store
+>>>>>>> bb1a7ce6acc75abe6678680385d23eb05d6a1dea

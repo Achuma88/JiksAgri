@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "Add";
+}
+<style>
+    body{
+        background-image: url("/images/bc437060-cdac-11ef-94cb-5f844ceb9e30.jpg");
+    }
+</style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <div class="card shadow-lg border-0" style="border-radius: 15px;">
+                <div class="card-body p-4">
+
+                    <h3 class="text-center mb-4" style="color: midnightblue; font-weight: bold;">
+                        <i class="fas fa-tractor me-2"></i>Register as a Farmer
+                    </h3>
+
+                    <form asp-action="Add" method="post" enctype="multipart/form-data">
+
+                        <!-- Farmer Name -->
+                        <label class="fw-bold">Full Name</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+                            <input name="FarmerName" class="form-control"
+                                   placeholder="Enter full name" required />
+                        </div>
+
+                        <!-- Farmer Email -->
+                        <label class="fw-bold">Email</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light"><i class="fas fa-envelope"></i></span>
+                            <input name="FarmerEmail" type="email" class="form-control"
+                                   placeholder="Enter email" required />
+                        </div>
+
+                        <!-- Farmer Phone -->
+                        <label class="fw-bold">Phone</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light"><i class="fas fa-phone"></i></span>
+                            <input name="FarmerPhone" class="form-control"
+                                   placeholder="Enter phone number" required />
+                        </div>
+
+                        <!-- Farmer Password -->
+                        <label class="fw-bold">Password</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                            <input name="FarmerPassword" type="password" class="form-control"
+                                   placeholder="Create password" required />
+                        </div>
+
+                        <!-- Farmer Location -->
+                        <label class="fw-bold">Farm Location</label>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt"></i></span>
+                            <input name="FarmerLocation" class="form-control"
+                                   placeholder="Enter farm location / village / area" required />
+                        </div>
+
+                        <!-- Document Upload -->
+                        <label class="fw-bold">Farm Ownership Document (PDF / JPG)</label>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text bg-light"><i class="fas fa-file-upload"></i></span>
+                            <input type="file" name="DocumentUpload" class="form-control" required />
+                        </div>
+
+                        <!-- Hidden Values -->
+                        <input type="hidden" name="RegisteredDate" value="@DateTime.Now" />
+                        <input type="hidden" name="FarmerStatus" value="Pending" />
+
+                        <button type="submit" class="btn w-100 text-white"
+                                style="background-color: #4b7f49; font-weight: bold;">
+                            <i class="fas fa-check-circle me-1"></i>Register Farmer
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content border-success">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @TempData["SuccessMessage"]
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+

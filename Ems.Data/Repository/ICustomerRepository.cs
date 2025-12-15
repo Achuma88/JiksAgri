@@ -11,8 +11,10 @@ namespace JiksAgriFarm.Data.Repository
     {
         Task<IEnumerable<Customer>> GetAll();
         Task<Customer> GetById(int id);
-        Task<bool> Add(Customer customer);
+        Task<bool> Register(Customer customer);
         Task<bool> Update(Customer customer);
         Task<bool> Delete(int id);
+        Task<Customer> Login(string customerEmail, string customerPassword);
+
     }
 }

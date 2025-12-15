@@ -1,0 +1,29 @@
+﻿@model JiksAgriFarm.Data.Models.Domain.Admin
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Register Admin</h2>
+
+    <form asp-action="Register" method="post">
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input asp-for="AdminName" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Surname</label>
+            <input asp-for="AdminSurname" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input asp-for="AdminEmail" type="email" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input asp-for="AdminPassword" type="password" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Register Admin</button>
+    </form>
+</div>

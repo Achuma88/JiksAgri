@@ -14,8 +14,10 @@ namespace JiksAgriFarm.Data.Models.Domain
         public string FarmerName { get; set; }
         public string FarmerPhone { get; set; }
         public string FarmerEmail { get; set; }
+        public string FarmerPassword { get; set; }
         public string FarmerLocation { get; set; }
-        public DateTime DateRegistered { get; set; }
+        public DateTime RegisteredDate { get; set; }
         public string FarmerStatus { get; set; }
+        public bool IsVerified { get; set; }
     }
 }

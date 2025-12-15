@@ -1,6 +1,7 @@
 ﻿using JiksAgriFarm.Data.Models.Domain;
 using JiksAgriFarm.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace JiksAgriFarm.UI.Controllers
 {
@@ -12,18 +13,25 @@ namespace JiksAgriFarm.UI.Controllers
         {
             _farmerRepository = farmerRepository;
         }
-        
-        public async Task<IActionResult> Add(Farmer farmer)
+
+        [HttpGet]
+        public IActionResult Add()
         {
-            if (!ModelState.IsValid)
-                return View(farmer);
+            return View();
+        }
 
-            bool added = await _farmerRepository.AddAsync(farmer);
+        [HttpPost]
+        public async Task<IActionResult> Add(Farmer farmer, IFormFile DocumentUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                var farmerId = await _farmerRepository.RegisterAsync(farmer);
 
-            TempData[added ? "SuccessMessage" : "ErrorMessage"] =
-                added ? "Product Successfully Added" : "Could not add product";
+                TempData["SuccessMessage"] = "Registration submitted. Please wait for verification.";
+                return RedirectToAction(nameof(Index));
+            }
 
-            return RedirectToAction(nameof(DisplayAll));
+            return View(farmer);
         }
         public async Task<IActionResult> DisplayAll(string? searchTerm)
         {

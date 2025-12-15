@@ -7,64 +7,86 @@
         @TempData["msg"]
     </div>
 }
+
 <style>
     body, html {
         height: 100%;
         margin: 0;
         padding: 0;
+        font-family: 'Segoe UI', sans-serif;
     }
+
     body {
         background-image: url("/images/bc437060-cdac-11ef-94cb-5f844ceb9e30.jpg");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
-        height: 100vh;
-        margin: 0;
         background-attachment: fixed;
     }
 
-    .text-center {
-        color:saddlebrown;
-        font-weight:bolder;
-        padding-top: 100px;
+    .hero-section {
+        text-align: center;
+        padding: 120px 20px;
+        background: rgba(255, 255, 255, 0.6);
+        margin: 40px auto;
+        width: 80%;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-section h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #4b2e18;
+    }
+
+    .hero-section p {
+        font-size: 1.3rem;
+        color: #3d2b1f;
     }
 
     .features {
         display: flex;
         justify-content: center;
         gap: 40px;
-        margin: 50px 0;
-        color: whitesmoke;
-        background-color:sandybrown;
-        border-radius:25px;
+        margin: 60px 0;
+        color: #fff;
     }
 
     .feature {
+        background-color: rgba(139, 69, 19, 0.9);
+        padding: 25px;
+        width: 250px;
         text-align: center;
-        max-width: 200px;
-        padding:30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
     }
 
+    .feature:hover {
+        transform: translateY(-10px);
+    }
+
+    .feature h3 {
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
 
     .health-motivation {
-        background-color: saddlebrown;
+        background-color: rgba(160, 82, 45, 0.95);
         padding: 50px 20px;
         color: #fff;
         text-align: center;
         border-radius: 12px;
         margin: 60px auto;
-        max-width: 800px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        max-width: 900px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
     }
 
     .health-content h2 {
-        font-size: 2.5em;
+        font-size: 2.3em;
         margin-bottom: 20px;
-    }
-
-    .health-content p {
-        font-size: 1.2em;
-        margin-bottom: 25px;
     }
 
     .health-tips {
@@ -75,64 +97,58 @@
         text-align: left;
     }
 
-        .health-tips li {
-            font-size: 1.1em;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-        }
+    .health-tips li {
+        font-size: 1.1em;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+    }
 
-        .health-tips i {
-            color: #fff700;
-            margin-right: 12px;
-            font-size: 1.3em;
-        }
+    .health-tips i {
+        margin-right: 12px;
+        font-size: 1.3em;
+        color: #fff700;
+    }
 
     blockquote {
         font-style: italic;
-        font-size: 1.1em;
+        font-size: 1.2em;
         color: #fffde7;
         margin-top: 20px;
     }
-
-    .btn-primary{
-        background-color: antiquewhite; /* Cream background */
-        color:midnightblue; /* Dark green text */
-        border: 2px solid midnightblue;
-        font-weight: bold;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .btn-primary:hover{
-            background-color: midnightblue; /* Bootstrap's green */
-            color: white;
-            border-color: white;
-            text-decoration: none;
-    }
 </style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to JiksAgriFarm </h1>
-    <p>Optimized to be efficient and effective</p>
+<div class="hero-section">
+    <h1>Welcome to JiksAgriFarm</h1>
+    <p>Smart • Efficient • Future‑Ready Agriculture</p>
 </div>
 
-<div class="text-center">
-    <h1 class="display-4">Some "fruit" for thought.</h1>
-    
+<div class="features">
+    <div class="feature">
+        <h3>🌱 Fresh Products</h3>
+        <p>High‑quality farm produce grown with care.</p>
+    </div>
+    <div class="feature">
+        <h3>🚜 Smart Farming</h3>
+        <p>Technology‑driven farming for better results.</p>
+    </div>
+    <div class="feature">
+        <h3>🤝 Trusted Service</h3>
+        <p>Reliable supply and consistent quality.</p>
+    </div>
 </div>
+
 <section class="health-motivation">
     <div class="health-content">
-        <h2>Stay Healthy, Stay Inspired 💪</h2>
-        <p>Your health is your real wealth. Every small habit counts—whether it's a morning walk, drinking water, or taking a deep breath.</p>
+        <h2>Grow Smart, Farm Strong 🌾</h2>
+        <p>Agriculture thrives on consistency, knowledge, and care. Whether you're managing crops, livestock, or equipment—every decision matters.</p>
         <ul class="health-tips">
-            <li><i class="fas fa-apple-alt"></i> Eat fresh fruits and vegetables daily</li>
-            <li><i class="fas fa-walking"></i> Walk at least 30 minutes a day</li>
-            <li><i class="fas fa-water"></i> Stay hydrated — drink 6–8 glasses of water</li>
-            <li><i class="fas fa-bed"></i> Prioritize 7–8 hours of sleep</li>
-            <li><i class="fas fa-smile-beam"></i> Take breaks — your mental health matters</li>
+            <li><i class="fas fa-seedling"></i> Monitor crop health and soil conditions regularly</li>
+            <li><i class="fas fa-tractor"></i> Maintain your farming equipment for optimal performance</li>
+            <li><i class="fas fa-water"></i> Use water wisely through efficient irrigation methods</li>
+            <li><i class="fas fa-cow"></i> Ensure proper feeding and welfare for livestock</li>
+            <li><i class="fas fa-sun"></i> Plan around seasons and weather patterns for better yield</li>
         </ul>
-        <blockquote>"Take care of your body. It’s the only place you have to live." – Jim Rohn</blockquote>
-       
+        <blockquote>"The ultimate goal of farming is not the growing of crops, but the cultivation and perfection of human beings." – Masanobu Fukuoka</blockquote>
     </div>
 </section>
-
-

@@ -12,12 +12,12 @@ namespace JiksAgriFarm.UI.Controllers
         {
             _customerRepository = customerRepository;
         }
-        public async Task<IActionResult> Add(Customer customer)
+        public async Task<IActionResult> Register(Customer customer)
         {
             if (!ModelState.IsValid)
                 return View(customer);
 
-            bool added = await _customerRepository.Add(customer);
+            bool added = await _customerRepository.Register(customer);
 
             TempData[added ? "SuccessMessage" : "ErrorMessage"] =
                 added ? "Product Successfully Added" : "Could not add product";

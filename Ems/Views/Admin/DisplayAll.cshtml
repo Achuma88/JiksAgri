@@ -1,0 +1,216 @@
+﻿@using JiksAgriFarm.Data.Models.Domain
+@using Microsoft.AspNetCore.Http
+@model IEnumerable<Farmer>
+
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<style>
+    body {
+        background-image: url("/images/bc437060-cdac-11ef-94cb-5f844ceb9e30.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        margin: 0;
+    }
+
+    .admin-layout {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 240px;
+        min-height: 100vh;
+        background: #1f7a3f;
+        color: #fff;
+        padding: 20px;
+        position: fixed;
+        left: 0;
+        top: 0;
+    }
+
+
+        .sidebar h4 {
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+            .sidebar a:hover,
+            .sidebar a.active {
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+    /* Main Area */
+    /* Main Area */
+    .content-area {
+        margin-left: 240px; /* 👈 THIS FIXES THE OVERLAP */
+        width: calc(100% - 240px);
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    /* Top Navbar */
+    .topbar {
+        background:none;
+        padding: 15px 25px;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .profile img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px solid #1f7a3f;
+        }
+
+        .profile small {
+            color: black;
+        }
+
+    /* Main content */
+    .main-content {
+        padding: 30px;
+    }
+
+    /* Search */
+    .search-input {
+        max-width: 400px;
+        border-radius: 25px;
+        padding-left: 20px;
+    }
+
+    /* Farmer Cards */
+    .farmer-card .card {
+        border-radius: 14px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .farmer-card .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+    .badge {
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+    }
+</style>
+
+<div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h4>JiksAgriFarm</h4>
+
+        <a asp-controller="Admin" asp-action="DisplayAll" class="active">🌾 Farmers</a>
+        <a asp-controller="Product" asp-action="Index">📦 Products</a>
+        <a asp-controller="Admin" asp-action="Pending">⏳ Verifications</a>
+        <a asp-controller="Admin" asp-action="Reports">📊 Reports</a>
+
+        <hr />
+        <a asp-controller="Admin" asp-action="Logout">🚪 Logout</a>
+    </aside>
+
+    <!-- Content Area -->
+    <div class="content-area">
+
+        <!-- Top Profile Bar -->
+        <div class="topbar">
+            <h5 class="mb-0 fw-bold">KwaGiqwa</h5>
+
+            <div class="profile">
+                <img src="https://ui-avatars.com/api/?name=@Context.Session.GetString("AdminEmail")&background=1f7a3f&color=fff" />
+                <div>
+                    <div class="fw-semibold">Admin</div>
+                    <small>@Context.Session.GetString("AdminEmail")</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Search Bar -->
+            <div class="mb-4">
+                <input type="text"
+                       id="farmerSearch"
+                       class="form-control search-input"
+                       placeholder="🔍 Search farmer by name, phone or email..." />
+            </div>
+
+            <!-- Farmers Grid -->
+            <div class="row" id="farmerContainer">
+                @foreach (var farmer in Model)
+                {
+                    <div class="col-lg-4 col-md-6 mb-4 farmer-card">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="fw-bold">@farmer.FarmerName</h5>
+
+                                <p class="mb-1"><strong>Phone:</strong> @farmer.FarmerPhone</p>
+                                <p class="mb-1"><strong>Email:</strong> @farmer.FarmerEmail</p>
+                                <p class="mb-2"><strong>Location:</strong> @farmer.FarmerLocation</p>
+
+                                <span class="badge
+                                        @(farmer.FarmerStatus == "Approved" ? "bg-success" :
+                                                                            farmer.FarmerStatus == "Pending" ? "bg-warning text-dark" : "bg-danger")">
+                                @farmer.FarmerStatus
+                            </span>
+                        </div>
+
+                            <div class="card-footer bg-transparent d-flex justify-content-between">
+                                <a asp-action="Details"
+                                   asp-route-id="@farmer.FarmerID"
+                                   class="btn btn-sm btn-outline-primary">
+                                    View
+                                </a>
+
+                                <a asp-action="Verify"
+                                   asp-route-id="@farmer.FarmerID"
+                                   class="btn btn-sm btn-outline-success">
+                                    Verify
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                }
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script>
+    document.getElementById('farmerSearch').addEventListener('keyup', function () {
+        const value = this.value.toLowerCase();
+        document.querySelectorAll('.farmer-card').forEach(card => {
+            card.style.display = card.innerText.toLowerCase().includes(value) ? '' : 'none';
+        });
+    });
+</script>

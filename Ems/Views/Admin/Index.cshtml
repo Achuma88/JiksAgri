@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Admin";
+}
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+    body{
+        background-image: url("/images/bc437060-cdac-11ef-94cb-5f844ceb9e30.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+    }
+    .dashboard-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+        cursor: pointer;
+    }
+
+        .dashboard-card:hover {
+            transform: scale(1.03);
+        }
+
+    .dashboard-icon {
+        font-size: 40px;
+        color: brown;
+    }
+
+    .admin-title {
+        font-size: 32px;
+        font-weight: bold;
+        color:brown;
+        margin-bottom: 10px;
+    }
+
+    .admin-subtitle {
+        font-size: 18px;
+        color: saddlebrown;
+    }
+
+    .shortcut-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+</style>
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1 class="admin-title">Welcome Admin</h1>
+        <p class="admin-subtitle">Dashboard Overview & Quick Management Shortcuts</p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Farmers -->
+        <div class="col-md-4">
+            <div onclick="location.href='/Admin/DisplayAll'" class="dashboard-card">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-tractor dashboard-icon me-3"></i>
+                    <div>
+                        <div class="shortcut-title">Manage Farmers</div>
+                        <span class="text-secondary">View, verify & manage farmer accounts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customers -->
+        <div class="col-md-4">
+            <div onclick="location.href='/Admin/Customers'" class="dashboard-card">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-users dashboard-icon me-3"></i>
+                    <div>
+                        <div class="shortcut-title">Manage Customers</div>
+                        <span class="text-secondary">View & manage customer accounts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div class="col-md-4">
+            <div onclick="location.href='/Product/DisplayAll'" class="dashboard-card">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-shopping-basket dashboard-icon me-3"></i>
+                    <div>
+                        <div class="shortcut-title">Manage Products</div>
+                        <span class="text-secondary">Livestock, vegetables, dairy products</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verification -->
+        <div class="col-md-4">
+            <div onclick="location.href='/Admin/VerificationRequests'" class="dashboard-card">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-file-circle-check dashboard-icon me-3"></i>
+                    <div>
+                        <div class="shortcut-title">Verification Requests</div>
+                        <span class="text-secondary">Approve or reject documents</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admins -->
+        <div class="col-md-4">
+            <div onclick="location.href='/Admin/AdminList'" class="dashboard-card">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-user-shield dashboard-icon me-3"></i>
+                    <div>
+                        <div class="shortcut-title">Manage Admins</div>
+                        <span class="text-secondary">View & register new admins</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div onclick="location.href='/Home/Index'" class="dashboard-card">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-tractor dashboard-icon me-3"></i>
+                    <div>
+                        <div class="shortcut-title">Client Side</div>
+                        <span class="text-secondary">View, verify & manage clients' view'</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Reports -->
+        <div class="col-md-4">
+            <div onclick="location.href='/Admin/Reports'" class="dashboard-card">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-chart-line dashboard-icon me-3"></i>
+                    <div>
+                        <div class="shortcut-title">Reports</div>
+                        <span class="text-secondary">System insights & analytics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

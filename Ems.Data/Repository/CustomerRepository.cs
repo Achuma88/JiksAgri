@@ -17,17 +17,19 @@ namespace JiksAgriFarm.Data.Repository
         {
             _db = db;
         }
-        public async Task<bool> Add(Customer customer)
+        public async Task<bool> Register(Customer customer)
         {
             try
             {
-                await _db.SaveData("spAddCustomer", new
+                await _db.SaveData("spRegisterCustomer", new
                 {
                     customer.CustomerName,
                     customer.CustomerPhone,
                     customer.CustomerEmail,
                     customer.CustomerAddress,
-                    customer.DateJoined
+                    customer.ConfirmPassword,
+                    customer.DateJoined,
+                    customer.CustomerStatus
                 });
 
                 return true;
@@ -102,6 +104,14 @@ namespace JiksAgriFarm.Data.Repository
                 return null;
             }
 
+        }
+        public async Task<Customer> Login(string customerEmail, string customerPassword)
+        {
+            var result = await _db.GetData<Customer, dynamic>(
+                "spCustomerLogin",
+                new { CustomerEmail = customerEmail, CustomerPassword = customerPassword }
+            );
+            return result.FirstOrDefault();
         }
     }
 }
