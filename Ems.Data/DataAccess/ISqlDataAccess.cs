@@ -10,6 +10,8 @@ namespace JiksAgriFarm.Data.DataAccess
     {
         Task<IEnumerable<T>> GetData<T, P>(string spName, P parameters, string connectionId = "conn");
         Task SaveData<T>(string spName, T parameters, string connectionId = "conn");
+        Task<T> LoadDataSingle<T>(string storedProcedure, object parameters,string connectionId="conn");
+
     }
 
 }

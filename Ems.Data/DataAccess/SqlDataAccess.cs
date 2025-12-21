@@ -28,5 +28,21 @@ namespace JiksAgriFarm.Data.DataAccess
             using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
             await connection.ExecuteAsync(spName, parameters, commandType: CommandType.StoredProcedure);
         }
+        public async Task<T> LoadDataSingle<T>(string storedProcedure, object parameters, string connectionId = "conn")
+        {
+            using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
+            return await connection.QueryFirstOrDefaultAsync<T>(
+           storedProcedure,
+           parameters,
+           commandType: CommandType.StoredProcedure
+       );
+        }
+
+
+
+
     }
-}
+ }
+
+ 
+

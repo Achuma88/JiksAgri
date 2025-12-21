@@ -52,6 +52,14 @@ public class AdminRepository : IAdminRepository
         );
         return result.FirstOrDefault();
     }
+    public async Task<Farmer> GetFarmerById(int farmerId)
+    {
+        var result = await _db.GetData<Farmer, dynamic>(
+            "spGetFarmerById",
+            new { FarmerID = farmerId }
+        );
+        return result.FirstOrDefault();
+    }
     public async Task<IEnumerable<Farmer>> GetAllFarmers()
     {
         try
@@ -92,5 +100,14 @@ public class AdminRepository : IAdminRepository
         }
 
     }
+    public async Task<dynamic> GetAdminStats()
+    {
+        return await _db.LoadDataSingle<dynamic>(
+            "spGetAdminStats",
+            new { }
+        );
+    }
+
+
 
 }

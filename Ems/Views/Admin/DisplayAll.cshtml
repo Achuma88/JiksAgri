@@ -1,9 +1,5 @@
-﻿@using JiksAgriFarm.Data.Models.Domain
-@using Microsoft.AspNetCore.Http
-@model IEnumerable<Farmer>
-
-@{
-    ViewData["Title"] = "Admin";
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
 }
 
 <style>
@@ -13,204 +9,164 @@
         background-repeat: no-repeat;
         background-position: center;
         background-attachment: fixed;
-        margin: 0;
     }
 
-    .admin-layout {
-        display: flex;
+    .admin-overlay {
+        background-color: none;
         min-height: 100vh;
+        padding-top: 90px;
     }
 
-    /* Sidebar */
-    .sidebar {
-        width: 240px;
-        min-height: 100vh;
-        background: #1f7a3f;
-        color: #fff;
-        padding: 20px;
-        position: fixed;
-        left: 0;
-        top: 0;
+    .navbar-admin {
+        background-color: #0f5132;
     }
 
-
-        .sidebar h4 {
-            font-weight: bold;
-            margin-bottom: 30px;
-            text-align: center;
+        .navbar-admin .nav-link,
+        .navbar-admin .navbar-brand {
+            color: white;
+            font-weight: 500;
         }
 
-        .sidebar a {
-            display: block;
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            transition: background 0.3s;
-        }
-
-            .sidebar a:hover,
-            .sidebar a.active {
-                background: rgba(255, 255, 255, 0.2);
+            .navbar-admin .nav-link.active {
+                text-decoration: underline;
             }
 
-    /* Main Area */
-    /* Main Area */
-    .content-area {
-        margin-left: 240px; /* 👈 THIS FIXES THE OVERLAP */
-        width: calc(100% - 240px);
-        display: flex;
-        flex-direction: column;
-    }
-
-
-    /* Top Navbar */
-    .topbar {
-        background:none;
-        padding: 15px 25px;
-        border-bottom: 1px solid #e0e0e0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .profile {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-        .profile img {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 2px solid #1f7a3f;
-        }
-
-        .profile small {
-            color: black;
-        }
-
-    /* Main content */
-    .main-content {
-        padding: 30px;
-    }
-
-    /* Search */
-    .search-input {
-        max-width: 400px;
-        border-radius: 25px;
-        padding-left: 20px;
-    }
-
-    /* Farmer Cards */
-    .farmer-card .card {
-        border-radius: 14px;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-        .farmer-card .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-        }
-
-    .badge {
-        padding: 6px 14px;
-        border-radius: 50px;
-        font-size: 0.75rem;
-    }
+            .navbar-admin .p{ font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size:48px;}
 </style>
 
-<div class="admin-layout">
+<!-- 🔝 ADMIN NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-admin fixed-top shadow">
+    <p>JiksAgriFarm</p>
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" asp-action="Index">
+            Home
+        </a>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <h4>JiksAgriFarm</h4>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <a asp-controller="Admin" asp-action="DisplayAll" class="active">🌾 Farmers</a>
-        <a asp-controller="Product" asp-action="Index">📦 Products</a>
-        <a asp-controller="Admin" asp-action="Pending">⏳ Verifications</a>
-        <a asp-controller="Admin" asp-action="Reports">📊 Reports</a>
+        <div class="collapse navbar-collapse" id="adminNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" asp-action="DisplayAll">Farmers</a>
+                </li>
+            </ul>
 
-        <hr />
-        <a asp-controller="Admin" asp-action="Logout">🚪 Logout</a>
-    </aside>
+            <!-- ADMIN PROFILE DROPDOWN -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        👤 Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" asp-action="Profile">My Profile</a>
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item text-danger" asp-action="Logout">
+                                Sign Out
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    <!-- Content Area -->
-    <div class="content-area">
+<!-- 🧾 PAGE CONTENT -->
+<div class="admin-overlay">
+    <div class="container">
 
-        <!-- Top Profile Bar -->
-        <div class="topbar">
-            <h5 class="mb-0 fw-bold">KwaGiqwa</h5>
+        <!-- Alerts -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
 
-            <div class="profile">
-                <img src="https://ui-avatars.com/api/?name=@Context.Session.GetString("AdminEmail")&background=1f7a3f&color=fff" />
-                <div>
-                    <div class="fw-semibold">Admin</div>
-                    <small>@Context.Session.GetString("AdminEmail")</small>
-                </div>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <h4 class="fw-bold mt-4 mb-3">Registered Farmers</h4>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="text"
+                       id="farmerSearch"
+                       class="form-control"
+                       placeholder="Search farmers by name, email, phone or location..." />
             </div>
         </div>
 
-        <!-- Main Content -->
-        <main class="main-content">
+        <!-- FARMERS GRID -->
+        <div class="row">
+            @foreach (var farmer in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-bold">@farmer.FarmerName</h5>
 
-            <!-- Search Bar -->
-            <div class="mb-4">
-                <input type="text"
-                       id="farmerSearch"
-                       class="form-control search-input"
-                       placeholder="🔍 Search farmer by name, phone or email..." />
-            </div>
+                            <p class="mb-1"><strong>Phone:</strong> @farmer.FarmerPhone</p>
+                            <p class="mb-1"><strong>Email:</strong> @farmer.FarmerEmail</p>
+                            <p class="mb-2"><strong>Location:</strong> @farmer.FarmerLocation</p>
 
-            <!-- Farmers Grid -->
-            <div class="row" id="farmerContainer">
-                @foreach (var farmer in Model)
-                {
-                    <div class="col-lg-4 col-md-6 mb-4 farmer-card">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="fw-bold">@farmer.FarmerName</h5>
+                            <span class="badge
+                                    @(farmer.FarmerStatus == "Active" ? "bg-success" :
+                                                                    farmer.FarmerStatus == "Pending" ? "bg-warning text-dark" : "bg-danger")">
+                            @farmer.FarmerStatus
+                        </span>
+                    </div>
 
-                                <p class="mb-1"><strong>Phone:</strong> @farmer.FarmerPhone</p>
-                                <p class="mb-1"><strong>Email:</strong> @farmer.FarmerEmail</p>
-                                <p class="mb-2"><strong>Location:</strong> @farmer.FarmerLocation</p>
+                        <div class="card-footer bg-transparent d-flex justify-content-between">
+                            <a asp-action="Details"
+                               asp-route-id="@farmer.FarmerID"
+                               class="btn btn-sm btn-outline-primary">
+                                View
+                            </a>
 
-                                <span class="badge
-                                        @(farmer.FarmerStatus == "Approved" ? "bg-success" :
-                                                                            farmer.FarmerStatus == "Pending" ? "bg-warning text-dark" : "bg-danger")">
-                                @farmer.FarmerStatus
-                            </span>
-                        </div>
-
-                            <div class="card-footer bg-transparent d-flex justify-content-between">
-                                <a asp-action="Details"
-                                   asp-route-id="@farmer.FarmerID"
-                                   class="btn btn-sm btn-outline-primary">
-                                    View
-                                </a>
-
-                                <a asp-action="Verify"
+                        @if (!farmer.IsVerified)
+                            {
+                                <a asp-action="ApproveFarmer"
                                    asp-route-id="@farmer.FarmerID"
                                    class="btn btn-sm btn-outline-success">
                                     Verify
                                 </a>
-                            </div>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Approved</span>
+                            }
                         </div>
                     </div>
-                                }
-            </div>
+                </div>
+            }
+        </div>
 
-        </main>
     </div>
 </div>
-
 <script>
-    document.getElementById('farmerSearch').addEventListener('keyup', function () {
-        const value = this.value.toLowerCase();
-        document.querySelectorAll('.farmer-card').forEach(card => {
-            card.style.display = card.innerText.toLowerCase().includes(value) ? '' : 'none';
+    document.getElementById("farmerSearch").addEventListener("keyup", function () {
+        let value = this.value.toLowerCase();
+        let cards = document.querySelectorAll(".farmer-card");
+
+        cards.forEach(card => {
+            let text = card.innerText.toLowerCase();
+            card.style.display = text.includes(value) ? "" : "none";
         });
     });
 </script>
+

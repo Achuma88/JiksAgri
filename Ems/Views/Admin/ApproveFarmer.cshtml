@@ -1,0 +1,37 @@
+﻿@model JiksAgriFarm.Data.Models.Domain.Farmer
+@{
+    ViewData["Title"] = "Admin";
+}
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Approve Farmer</h5>
+        </div>
+
+        <div class="card-body">
+            <p><strong>Name:</strong> @Model.FarmerName</p>
+            <p><strong>Email:</strong> @Model.FarmerEmail</p>
+            <p><strong>Phone:</strong> @Model.FarmerPhone</p>
+            <p><strong>Location:</strong> @Model.FarmerLocation</p>
+
+            <!-- ✅ CORRECT POST FORM -->
+            <form asp-controller="Admin"
+                  asp-action="ApproveFarmerConfirmed"
+                  asp-route-id="@Model.FarmerID"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit" class="btn btn-sm btn-outline-success">
+                    Verify
+                </button>
+
+                <a asp-controller="Admin"
+                   asp-action="DisplayAll"
+                   class="btn btn-secondary ms-2">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

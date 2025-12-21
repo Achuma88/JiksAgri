@@ -35,7 +35,7 @@ namespace JiksAgriFarm.UI.Controllers
             HttpContext.Session.SetInt32("AdminID", admins.AdminID);
             HttpContext.Session.SetString("AdminEmail", admin.AdminEmail);
 
-            return RedirectToAction("DisplayAll");
+            return RedirectToAction("Index");
         }
         public IActionResult Index()
         {
@@ -78,30 +78,69 @@ namespace JiksAgriFarm.UI.Controllers
 
             return View(farmers);
         }
-        public async Task<IActionResult> ApproveFarmer(int farmerId)
+        [HttpGet]
+        public async Task<IActionResult> ApproveFarmer(int id)
         {
-            int ?adminId = HttpContext.Session.GetInt32("AdminID");
+            int? adminId = HttpContext.Session.GetInt32("AdminID");
             if (adminId == null)
-            {
                 return RedirectToAction("Login");
-            }
-            bool result = await _adminRepository.ApproveFarmer(farmerId, adminId.Value);
-            if (result)
+
+            var farmer = await _adminRepository.GetFarmerById(id);
+            if (farmer == null)
+                return NotFound();
+
+            return View(farmer);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ApproveFarmerConfirmed(int id)
+        {
+            int? adminId = HttpContext.Session.GetInt32("AdminID");
+            if (adminId == null)
+                return RedirectToAction("Login");
+
+            bool success = await _adminRepository.ApproveFarmer(id, adminId.Value);
+
+            if (success)
             {
-                TempData["SuccessApprove"] = "Farmer Approved Successfully";
+                TempData["SuccessMessage"] = "Farmer approved successfully.";
             }
             else
             {
-                TempData["Error"] = "Farmer Not Approved";
+                TempData["ErrorMessage"] = "Failed to approve farmer. Please try again.";
             }
 
             return RedirectToAction("DisplayAll");
         }
+
+
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
+        public async Task<IActionResult> Dashboard()
+        {
+            try
+            {
+                var stats = await _adminRepository.GetAdminStats();
 
+                if (stats == null)
+                {
+                    TempData["ErrorMessage"] = "Unable to load admin statistics.";
+                    return View(new Admin());
+                }
+
+                return View(stats);
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "An error occurred while loading admin statistics.";
+                return View(new Admin());
+            }
+        }
     }
 }

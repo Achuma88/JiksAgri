@@ -1,0 +1,44 @@
+﻿@model JiksAgriFarm.Data.Models.Domain.AdminStats
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <h6>Total Farmers</h6>
+                <h3>@Model.TotalFarmers</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow bg-success text-white">
+            <div class="card-body text-center">
+                <h6>Approved</h6>
+                <h3>@Model.ApprovedFarmers</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow bg-warning text-dark">
+            <div class="card-body text-center">
+                <h6>Pending</h6>
+                <h3>@Model.PendingFarmers</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow bg-danger text-white">
+            <div class="card-body text-center">
+                <h6>Inactive</h6>
+                <h3>@Model.InactiveFarmers</h3>
+            </div>
+        </div>
+    </div>
+</div>
