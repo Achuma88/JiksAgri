@@ -1,52 +1,41 @@
-<<<<<<< HEAD
-# 🧑‍💼 Employee Management System (EMS)
+# 🌱 JiksAgri – Online Agriculture Store
 
-The **Employee Management System (EMS)** is a web-based application developed using **ASP.NET Core MVC** and **Dapper** for efficient data access.  
-It provides a centralized platform for managing employee records, user authentication, staff details, and administrative operations within an organization.
-
----
-
-## 🚀 Features
-
-✅ **User Authentication**  
-- Secure login using email and password  
-- Role-based access (Admin, Staff, etc.)
-
-✅ **Employee Management**  
-- Add, edit, update, and delete employee information  
-- View employee profiles and reset passwords  
-
-✅ **Admin Dashboard**  
-- Manage staff roles and track status counts  
-- Update admin information  
-
-✅ **Data Access with Dapper**  
-- Uses stored procedures for database operations  
-- Fast and lightweight querying  
-
-✅ **Modern Interface**  
-- Built with Bootstrap and responsive Razor views  
+JiksAgri is a web-based agriculture platform developed using **ASP.NET Core MVC**.  
+The system enables users to browse, manage, and purchase agricultural products online, while administrators manage products, users, and orders.
 
 ---
 
-## 🏗️ Technologies Used
+## 🚀 Technologies Used
 
-- **ASP.NET Core MVC**  
-- **Dapper ORM**  
-- **SQL Server**  
-- **HTML, CSS, Bootstrap**  
-- **C#**
+- ASP.NET Core MVC
+- C#
+- Dapper ORM
+- SQL Server
+- HTML, CSS, Bootstrap
+- JavaScript
+
+---
+
+## ✨ Features
+
+### 👤 User Features
+- User registration and login
+- Browse available agricultural products
+- Search and filter products
+- Place orders
+
+### 🛠️ Admin Features
+- Admin authentication
+- Add, update, and delete products
+- Manage users
+- View and manage orders
+- Dashboard overview
 
 ---
 
 ## ⚙️ Setup Instructions
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/Achuma88/EmployeeManagementSystem.git
-   cd EmployeeManagementSystem
-
-=======
-# JiksAgri
-Online agriculture store
->>>>>>> bb1a7ce6acc75abe6678680385d23eb05d6a1dea
+### 1. Clone the repository
+```bash
+git clone https://github.com/Achuma88/JiksAgri.git
+cd JiksAgri
