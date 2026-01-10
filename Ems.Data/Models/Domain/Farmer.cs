@@ -12,6 +12,7 @@ namespace JiksAgriFarm.Data.Models.Domain
         [Key]
         public int FarmerID { get; set; }
         public string FarmerName { get; set; }
+        public string FarmName { get; set; }
         public string FarmerPhone { get; set; }
         public string FarmerEmail { get; set; }
         public string FarmerPassword { get; set; }

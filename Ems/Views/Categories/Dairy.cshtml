@@ -1,0 +1,50 @@
+﻿<style>
+    .category-header {
+        background: linear-gradient(135deg, #2f6f3e, #6fa84f);
+        color: white;
+        padding: 60px 20px;
+        border-radius: 15px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .product-grid img {
+        height: 220px;
+        object-fit: cover;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .product-card {
+        border-radius: 15px;
+        transition: transform 0.3s ease;
+    }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+        }
+</style>
+@{
+    ViewData["Title"] = "Produce";
+}
+
+<div class="category-header">
+    <h1>🧺Dairy</h1>
+    <p>Fresh dairy straight from the farm</p>
+</div>
+
+<div class="container product-grid">
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="card product-card shadow-sm">
+                <img src="/images/dairy.jpg">
+                <div class="card-body text-center">
+                    <h5>Dairy Products</h5>
+                    <p class="fw-bold text-success">R200</p>
+                    <a href="#" class="btn btn-outline-success btn-sm">View</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

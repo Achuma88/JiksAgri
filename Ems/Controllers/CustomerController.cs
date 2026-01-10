@@ -12,18 +12,29 @@ namespace JiksAgriFarm.UI.Controllers
         {
             _customerRepository = customerRepository;
         }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(Customer customer)
         {
             if (!ModelState.IsValid)
                 return View(customer);
 
+            
+
             bool added = await _customerRepository.Register(customer);
 
             TempData[added ? "SuccessMessage" : "ErrorMessage"] =
-                added ? "Product Successfully Added" : "Could not add product";
+                added ? "Customer registered successfully" : "Could not register customer";
 
-            return RedirectToAction(nameof(DisplayAll));
+            return RedirectToAction(nameof(Index));
         }
+
+
         public async Task<IActionResult> DisplayAll()
         {
             IEnumerable<Customer> customer;

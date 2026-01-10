@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Add";
+﻿@model JiksAgriFarm.Data.Models.Domain.Customer
+@{
+    ViewData["Title"] = "SignUp";
 }
 <style>
     body{
@@ -14,71 +15,64 @@
                 <div class="card-body p-4">
 
                     <h3 class="text-center mb-4" style="color: midnightblue; font-weight: bold;">
-                        <i class="fas fa-tractor me-2"></i>Register as a Farmer
+                        <i class="fas fa-tractor me-2"></i>Sign Up
                     </h3>
 
-                    <form asp-action="Add" method="post" enctype="multipart/form-data">
+                    <form asp-action="Register" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
 
                         <!-- Farmer Name -->
                         <label class="fw-bold">Full Name</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
-                            <input name="FarmerName" class="form-control"
+                            <input name="CustomerName" class="form-control"
                                    placeholder="Enter full name" required />
                         </div>
-
-                        <label class="fw-bold">Farm Name</label>
+                        <label class="fw-bold">Surname</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
-                            <input name="FarmName" class="form-control"
-                                   placeholder="Enter farm name" required />
+                            <input name="CustomerSurname" class="form-control"
+                                   placeholder="Enter your surname" required />
+                        </div>
+                        <label class="fw-bold">Phone</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+                            <input name="CustomerPhone" class="form-control"
+                                   placeholder="Enter your cellphone number" required />
                         </div>
                         <!-- Farmer Email -->
                         <label class="fw-bold">Email</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light"><i class="fas fa-envelope"></i></span>
-                            <input name="FarmerEmail" type="email" class="form-control"
-                                   placeholder="Enter email" required />
+                            <input name="CustomerEmail" type="email" class="form-control"
+                                   placeholder="Enter your email" required />
                         </div>
 
-                        <!-- Farmer Phone -->
-                        <label class="fw-bold">Phone</label>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-light"><i class="fas fa-phone"></i></span>
-                            <input name="FarmerPhone" class="form-control"
-                                   placeholder="Enter phone number" required />
+                        <label class="fw-bold">Physical Address</label>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt"></i></span>
+                            <input name="CustomerAddress" class="form-control"
+                                   placeholder="Enter farm location / village / area" required />
                         </div>
 
                         <!-- Farmer Password -->
                         <label class="fw-bold">Password</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
-                            <input name="FarmerPassword" type="password" class="form-control"
-                                   placeholder="Create password" required />
+                            <input asp-for="CustomerPassword" type="password" class="form-control" />
+                            <span asp-validation-for="CustomerPassword"></span>
                         </div>
-
-                        <!-- Farmer Location -->
-                        <label class="fw-bold">Farm Location</label>
-                        <div class="input-group mb-4">
-                            <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt"></i></span>
-                            <input name="FarmerLocation" class="form-control"
-                                   placeholder="Enter farm location / village / area" required />
+                        <label class="fw-bold">Confirm Password</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                            <<input asp-for="ConfirmPassword" type="password" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword"></span>
                         </div>
-
-                        <!-- Document Upload -->
-                        <label class="fw-bold">Farm Ownership Document (PDF / JPG)</label>
-                        <div class="input-group mb-4">
-                            <span class="input-group-text bg-light"><i class="fas fa-file-upload"></i></span>
-                            <input type="file" name="DocumentUpload" class="form-control" required />
-                        </div>
-
-                        <!-- Hidden Values -->
-                        <input type="hidden" name="RegisteredDate" value="@DateTime.Now" />
-                        <input type="hidden" name="FarmerStatus" value="Pending" />
+                   
 
                         <button type="submit" class="btn w-100 text-white"
                                 style="background-color: #4b7f49; font-weight: bold;">
-                            <i class="fas fa-check-circle me-1"></i>Register Farmer
+                            <i class="fas fa-check-circle me-1"></i>Sign Up
                         </button>
 
                     </form>

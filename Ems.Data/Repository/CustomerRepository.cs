@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace JiksAgriFarm.Data.Repository
 {
@@ -21,26 +23,31 @@ namespace JiksAgriFarm.Data.Repository
         {
             try
             {
+                                customer.DateJoined = DateTime.Now;
+                var passwordHasher = new PasswordHasher<Customer>();
+                var passwordHash = passwordHasher.HashPassword(customer, customer.CustomerPassword);
+
                 await _db.SaveData("spRegisterCustomer", new
                 {
                     customer.CustomerName,
+                    customer.CustomerSurname,
                     customer.CustomerPhone,
                     customer.CustomerEmail,
                     customer.CustomerAddress,
-                    customer.ConfirmPassword,
-                    customer.DateJoined,
-                    customer.CustomerStatus
+                    CustomerPassword = passwordHash   // MUST match SP
                 });
 
                 return true;
             }
             catch (Exception ex)
             {
-                // Log the exception here if needed
+                // log ex
                 return false;
             }
         }
-        
+
+
+
         public async Task<bool> Update(Customer customer)
         {
             try

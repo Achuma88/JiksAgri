@@ -25,6 +25,7 @@ namespace JiksAgriFarm.Data.Repository
                 await _db.SaveData("spAddFarmer", new
                 {
                     farmer.FarmerName,
+                    farmer.FarmName,
                     farmer.FarmerPhone,
                     farmer.FarmerEmail,
                     farmer.FarmerPassword,   // hashed before saving

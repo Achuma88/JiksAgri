@@ -1,161 +1,346 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
+
 @if (TempData["msg"] != null)
 {
-    <div class="alert alert-success">
+    <div class="alert alert-success text-center">
         @TempData["msg"]
     </div>
 }
+
 <style>
-    body, html {
-        height: 100%;
-        margin: 0;
-        padding: 0;
+    body {
+        background-color: #f8f9fa;
     }
 
-    body {
+    /* HERO */
+    .hero {
         background-image: url("/images/c75.jpg");
         background-size: cover;
-        background-repeat: no-repeat;
         background-position: center;
-        height: 100vh;
-        margin: 0;
-        background-attachment: fixed;
-    }
-
-    .text-center {
-        color: midnightblue;
-        font-weight: bolder;
-        padding-top: 100px;
-    }
-
-    .features {
+        height: 90vh;
+        color: white;
         display: flex;
-        justify-content: center;
-        gap: 40px;
-        margin: 50px 0;
-        color: whitesmoke;
-        background-color: darkcyan;
-        border-radius: 25px;
+        align-items: center;
     }
 
-    .feature {
-        text-align: center;
-        max-width: 200px;
-        padding: 30px;
+    .hero-overlay {
+        background: rgba(0,0,0,0.55);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
 
-
-    .health-motivation {
-        background-color: darkcyan;
-        padding: 50px 20px;
-        color: #fff;
-        text-align: center;
-        border-radius: 12px;
-        margin: 60px auto;
-        max-width: 800px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    .health-content h2 {
-        font-size: 2.5em;
-        margin-bottom: 20px;
-    }
-
-    .health-content p {
-        font-size: 1.2em;
-        margin-bottom: 25px;
-    }
-
-    .health-tips {
-        list-style: none;
-        padding: 0;
-        margin: 0 auto 30px auto;
-        max-width: 500px;
-        text-align: left;
-    }
-
-        .health-tips li {
-            font-size: 1.1em;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .health-tips i {
-            color: #fff700;
-            margin-right: 12px;
-            font-size: 1.3em;
-        }
-
-    blockquote {
-        font-style: italic;
-        font-size: 1.1em;
-        color: #fffde7;
-        margin-top: 20px;
-    }
-
-    .btn-primary {
-        background-color: antiquewhite; /* Cream background */
-        color: midnightblue; /* Dark green text */
-        border: 2px solid midnightblue;
+    .hero h1 {
+        font-size: 3.5rem;
         font-weight: bold;
-        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-        .btn-primary:hover {
-            background-color: midnightblue; /* Bootstrap's green */
-            color: white;
-            border-color: white;
-            text-decoration: none;
+    /* FEATURE STRIP */
+    .feature-strip {
+        background-color: #2f6f3e;
+        color: white;
+        padding: 40px 0;
+    }
+
+        .feature-strip i {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
+
+    /* IMAGE SIZING */
+    .product-img,
+    .livestock-img {
+        height: 220px;
+        object-fit: cover;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    /* CARDS */
+    .product-card, .livestock-card {
+        border-radius: 15px;
+        transition: transform 0.3s ease;
+    }
+
+        .product-card:hover,
+        .livestock-card:hover {
+            transform: translateY(-6px);
+        }
+
+    /* CATEGORY */
+    .category-card {
+        background-color: white;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: 0.3s;
+        font-weight: bold;
+    }
+
+        .category-card:hover {
+            background-color: #2f6f3e;
+            color: white;
+        }
+
+    .carousel-control-next-icon{
+        background-color: #2f6f3e;
+    }
+    /* SELLER CTA */
+    .seller-cta {
+        background: linear-gradient(135deg, #2f6f3e, #6fa84f);
+        color: white;
+        padding: 60px 20px;
+        border-radius: 20px;
+    }
+    .carousel-control-prev-icon{
+        background-color: #2f6f3e;
+    }
+
 </style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Swift </h1>
-    <p>Optimized to be efficient and effective</p>
-</div>
-<div class="features">
-    <div class="feature">
-        <i class="fas fa-user-check fa-2x"></i>
-        <h3>Manage Employees</h3>
-        <p>Easily add, update, or remove staff.</p>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-overlay">
+        <div class="container text-center">
+            <h1>Buy Fresh. Sell Smart. Grow Together.</h1>
+            <p class="lead mt-3">
+                Connecting farmers directly to buyers across South Africa
+            </p>
+            <div class="mt-4">
+                <a href="#" class="btn btn-success btn-lg me-3">Shop Products</a>
+                <a href="#" class="btn btn-outline-light btn-lg">Browse Livestock</a>
+            </div>
+        </div>
     </div>
-    <div class="feature">
-        <i class="fas fa-chart-line fa-2x"></i>
-        <h3>Track Performance</h3>
-        <p>Analyze employee metrics and KPIs.</p>
-    </div>
-    <div class="feature">
-        <i class="fas fa-address-book fa-2x"></i>
-        <h3>Employee Directory</h3>
-        <p>View and search employee profiles easily.</p>
-    </div>
-    <div class="feature">
-        <i class="fas fa-user-shield fa-2x"></i>
-        <h3>Role-Based Access</h3>
-        <p>Secure features based on user roles and permissions.</p>
-    </div>
-</div>
-<div class="text-center">
-    <h1 class="display-4">Some "fruit" for thought.</h1>
+</section>
 
-</div>
-<section class="health-motivation">
-    <div class="health-content">
-        <h2>Stay Healthy, Stay Inspired 💪</h2>
-        <p>Your health is your real wealth. Every small habit counts—whether it's a morning walk, drinking water, or taking a deep breath.</p>
-        <ul class="health-tips">
-            <li><i class="fas fa-apple-alt"></i> Eat fresh fruits and vegetables daily</li>
-            <li><i class="fas fa-walking"></i> Walk at least 30 minutes a day</li>
-            <li><i class="fas fa-water"></i> Stay hydrated — drink 6–8 glasses of water</li>
-            <li><i class="fas fa-bed"></i> Prioritize 7–8 hours of sleep</li>
-            <li><i class="fas fa-smile-beam"></i> Take breaks — your mental health matters</li>
-        </ul>
-        <blockquote>"Take care of your body. It’s the only place you have to live." – Jim Rohn</blockquote>
+<!-- FEATURES -->
+<section class="feature-strip text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <i class="fas fa-tractor"></i>
+                <h5>Direct From Farmers</h5>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-cow"></i>
+                <h5>Verified Livestock</h5>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-lock"></i>
+                <h5>Secure Payments</h5>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-truck"></i>
+                <h5>Nationwide Delivery</h5>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TRENDING PRODUCTS SLIDER -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">🔥 Trending Farm Products</h2>
+
+    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+
+            <div class="carousel-item active">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-3">
+                        <div class="card product-card shadow-sm">
+                            <img src="/images/maize.jpg" class="product-img">
+                            <div class="card-body text-center">
+                                <h5>Fresh Maize (50kg)</h5>
+                                <p class="fw-bold text-success">R450</p>
+                                <a href="#" class="btn btn-outline-success btn-sm">View</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card product-card shadow-sm">
+                            <img src="/images/veg.jpg" class="product-img">
+                            <div class="card-body text-center">
+                                <h5>Vegetables</h5>
+                                <p class="fw-bold text-success">R300</p>
+                                <a href="#" class="btn btn-outline-success btn-sm">View</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card product-card shadow-sm">
+                            <img src="/images/dairy.jpg" class="product-img">
+                            <div class="card-body text-center">
+                                <h5>Dairy Products</h5>
+                                <p class="fw-bold text-success">R200</p>
+                                <a href="#" class="btn btn-outline-success btn-sm">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-3">
+                        <div class="card product-card shadow-sm">
+                            <img src="/images/meat.jpg" class="product-img">
+                            <div class="card-body text-center">
+                                <h5>Fresh Meat</h5>
+                                <p class="fw-bold text-success">R650</p>
+                                <a href="#" class="btn btn-outline-success btn-sm">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</section>
+
+<!-- LIVESTOCK SLIDER -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">🐄 Livestock Marketplace</h2>
+
+    <div id="livestockCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+
+            <div class="carousel-item active">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-4">
+                        <div class="card livestock-card shadow">
+                            <img src="/images/cows-nguni.jpg" class="livestock-img">
+                            <div class="card-body">
+                                <h5>Nguni Cow</h5>
+                                <p>Age: 2 Years</p>
+                                <p class="fw-bold text-success">R18,000</p>
+                                <a href="#" class="btn btn-success btn-sm">View Farmer</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card livestock-card shadow">
+                            <img src="/images/pigs.jpg" class="livestock-img">
+                            <div class="card-body">
+                                <h5>Pigs</h5>
+                                <p>Age: 2 Years</p>
+                                <p class="fw-bold text-success">R3,000</p>
+                                <a href="#" class="btn btn-success btn-sm">View Farmer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-4">
+                        <div class="card livestock-card shadow">
+                            <img src="/images/sheep.jpg" class="livestock-img">
+                            <div class="card-body">
+                                <h5>Sheep</h5>
+                                <p>Age: 2 Years</p>
+                                <p class="fw-bold text-success">R7,000</p>
+                                <a href="#" class="btn btn-success btn-sm">View Farmer</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card livestock-card shadow">
+                            <img src="/images/gt.png" class="livestock-img">
+                            <div class="card-body">
+                                <h5>Goats</h5>
+                                <p>Age: 2 Years</p>
+                                <p class="fw-bold text-success">R8,000</p>
+                                <a href="#" class="btn btn-success btn-sm">View Farmer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#livestockCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#livestockCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Shop by Category</h2>
+    <div class="row g-4 text-center">
+
+        <div class="col-md-2">
+            <a asp-controller="Categories" asp-action="Crops" class="category-card d-block text-decoration-none">
+                🌽 Crops
+            </a>
+        </div>
+
+        <div class="col-md-2">
+            <a asp-controller="Categories" asp-action="Vegetable" class="category-card d-block text-decoration-none">
+                🥬 Vegetables
+            </a>
+        </div>
+
+        <div class="col-md-2">
+            <a asp-controller="Categories" asp-action="Poultry" class="category-card d-block text-decoration-none">
+                🐓 Poultry
+            </a>
+        </div>
+
+        <div class="col-md-2">
+            <a asp-controller="Categories" asp-action="Cattle" class="category-card d-block text-decoration-none">
+                🐄 Cattle
+            </a>
+        </div>
+
+        <div class="col-md-2">
+            <a asp-controller="Categories" asp-action="Goats" class="category-card d-block text-decoration-none">
+                🐐 Goats
+            </a>
+        </div>
+
+        <div class="col-md-2">
+            <a asp-controller="Categories" asp-action="Produce" class="category-card d-block text-decoration-none">
+                🧺 Produce
+            </a>
+        </div>
+        <div class="col-md-2">
+            <a asp-controller="Categories" asp-action="Tools" class="category-card d-block text-decoration-none">
+                🚜 Tools & Equipment
+            </a>
+        </div>
 
     </div>
 </section>
 
 
+<!-- SELLER CTA -->
+<section class="container my-5">
+    <div class="seller-cta text-center">
+        <h2>Sell Your Farm Products Online</h2>
+        <p class="lead">Join thousands of farmers growing their income</p>
+        <a href="/Customer/Register" class="btn btn-light btn-lg">Become a Seller</a>
+    </div>
+</section>

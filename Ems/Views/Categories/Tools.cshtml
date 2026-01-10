@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Farm Tools & Equipment";
+}
+
+<style>
+    .equipment-header {
+        background: linear-gradient(135deg, #2f6f3e, #6fa84f);
+        color: white;
+        padding: 60px 20px;
+        border-radius: 15px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .equipment-card img {
+        height: 220px;
+        object-fit: cover;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .equipment-card {
+        border-radius: 15px;
+        transition: transform 0.3s ease;
+    }
+
+        .equipment-card:hover {
+            transform: translateY(-6px);
+        }
+
+    .equipment-tag {
+        background-color: #2f6f3e;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        display: inline-block;
+        margin-bottom: 8px;
+    }
+</style>
+
+<div class="equipment-header">
+    <h1>🚜 Farm Tools & Equipment</h1>
+    <p>Reliable tools showing strength, efficiency, and durability</p>
+</div>
+
+<div class="container">
+    <div class="row g-4">
+
+        <!-- Tractor -->
+        <div class="col-md-4">
+            <div class="card equipment-card shadow-sm">
+                <img src="/images/tractor.jpg">
+                <div class="card-body text-center">
+                    <span class="equipment-tag">Heavy Duty</span>
+                    <h5>Farm Tractor</h5>
+                    <p>120HP Diesel Tractor</p>
+                    <p class="fw-bold text-success">R350,000</p>
+                    <a href="#" class="btn btn-success btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plough -->
+        <div class="col-md-4">
+            <div class="card equipment-card shadow-sm">
+                <img src="/images/plough.jpg">
+                <div class="card-body text-center">
+                    <span class="equipment-tag">Soil Prep</span>
+                    <h5>Steel Plough</h5>
+                    <p>Multi-blade farming plough</p>
+                    <p class="fw-bold text-success">R18,500</p>
+                    <a href="#" class="btn btn-success btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Irrigation -->
+        <div class="col-md-4">
+            <div class="card equipment-card shadow-sm">
+                <img src="/images/irrigation.jpg">
+                <div class="card-body text-center">
+                    <span class="equipment-tag">Water System</span>
+                    <h5>Irrigation Pump</h5>
+                    <p>High pressure water pump</p>
+                    <p class="fw-bold text-success">R9,800</p>
+                    <a href="#" class="btn btn-success btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hand Tools -->
+        <div class="col-md-4">
+            <div class="card equipment-card shadow-sm">
+                <img src="/images/handtools.jpg">
+                <div class="card-body text-center">
+                    <span class="equipment-tag">Hand Tools</span>
+                    <h5>Farming Tool Set</h5>
+                    <p>Shovel, rake & hoe</p>
+                    <p class="fw-bold text-success">R850</p>
+                    <a href="#" class="btn btn-success btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sprayer -->
+        <div class="col-md-4">
+            <div class="card equipment-card shadow-sm">
+                <img src="/images/sprayer.jpg">
+                <div class="card-body text-center">
+                    <span class="equipment-tag">Crop Care</span>
+                    <h5>Backpack Sprayer</h5>
+                    <p>20L manual sprayer</p>
+                    <p class="fw-bold text-success">R1,250</p>
+                    <a href="#" class="btn btn-success btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wheelbarrow -->
+        <div class="col-md-4">
+            <div class="card equipment-card shadow-sm">
+                <img src="/images/wheelbarrow.jpg">
+                <div class="card-body text-center">
+                    <span class="equipment-tag">Transport</span>
+                    <h5>Wheelbarrow</h5>
+                    <p>Heavy duty steel wheelbarrow</p>
+                    <p class="fw-bold text-success">R2,200</p>
+                    <a href="#" class="btn btn-success btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

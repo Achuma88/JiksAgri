@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<JiksAgriFarm.Data.Models.Domain.Farmer>
+
+@{
     ViewData["Title"] = "Admin Dashboard";
 }
 
@@ -12,7 +14,6 @@
     }
 
     .admin-overlay {
-        background-color: none;
         min-height: 100vh;
         padding-top: 90px;
     }
@@ -31,24 +32,26 @@
                 text-decoration: underline;
             }
 
-            .navbar-admin .p{ font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            font-size:48px;}
+    .farmer-card {
+        transition: transform 0.3s;
+    }
+
+        .farmer-card:hover {
+            transform: translateY(-5px);
+        }
 </style>
 
 <!-- 🔝 ADMIN NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-admin fixed-top shadow">
-    <p>JiksAgriFarm</p>
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" asp-action="Index">
-            Home
-        </a>
+        <a class="navbar-brand fw-bold" asp-action="Index">JiksAgriFarm</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="adminNavbar">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" asp-action="Dashboard">Dashboard</a>
                 </li>
@@ -57,22 +60,15 @@
                 </li>
             </ul>
 
-            <!-- ADMIN PROFILE DROPDOWN -->
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                         👤 Admin
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a class="dropdown-item" asp-action="Profile">My Profile</a>
-                        </li>
+                        <li><a class="dropdown-item" asp-action="Profile">My Profile</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li>
-                            <a class="dropdown-item text-danger" asp-action="Logout">
-                                Sign Out
-                            </a>
-                        </li>
+                        <li><a class="dropdown-item text-danger" asp-action="Logout">Sign Out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -84,30 +80,22 @@
 <div class="admin-overlay">
     <div class="container">
 
-        <!-- Alerts -->
         @if (TempData["SuccessMessage"] != null)
         {
-            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                @TempData["SuccessMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
+            <div class="alert alert-success mt-3">@TempData["SuccessMessage"]</div>
         }
 
         @if (TempData["ErrorMessage"] != null)
         {
-            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                @TempData["ErrorMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
+            <div class="alert alert-danger mt-3">@TempData["ErrorMessage"]</div>
         }
 
         <h4 class="fw-bold mt-4 mb-3">Registered Farmers</h4>
+
         <div class="row mb-3">
             <div class="col-md-6">
-                <input type="text"
-                       id="farmerSearch"
-                       class="form-control"
-                       placeholder="Search farmers by name, email, phone or location..." />
+                <input id="farmerSearch" class="form-control"
+                       placeholder="Search farmers..." />
             </div>
         </div>
 
@@ -115,14 +103,14 @@
         <div class="row">
             @foreach (var farmer in Model)
             {
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-4 col-md-6 mb-4 farmer-card">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
                             <h5 class="fw-bold">@farmer.FarmerName</h5>
-
-                            <p class="mb-1"><strong>Phone:</strong> @farmer.FarmerPhone</p>
-                            <p class="mb-1"><strong>Email:</strong> @farmer.FarmerEmail</p>
-                            <p class="mb-2"><strong>Location:</strong> @farmer.FarmerLocation</p>
+                            <p><strong>Farm:</strong> @farmer.FarmName</p>
+                            <p><strong>Phone:</strong> @farmer.FarmerPhone</p>
+                            <p><strong>Email:</strong> @farmer.FarmerEmail</p>
+                            <p><strong>Location:</strong> @farmer.FarmerLocation</p>
 
                             <span class="badge
                                     @(farmer.FarmerStatus == "Active" ? "bg-success" :
@@ -155,18 +143,14 @@
                 </div>
             }
         </div>
-
     </div>
 </div>
+
 <script>
     document.getElementById("farmerSearch").addEventListener("keyup", function () {
         let value = this.value.toLowerCase();
-        let cards = document.querySelectorAll(".farmer-card");
-
-        cards.forEach(card => {
-            let text = card.innerText.toLowerCase();
-            card.style.display = text.includes(value) ? "" : "none";
+        document.querySelectorAll(".farmer-card").forEach(card => {
+            card.style.display = card.innerText.toLowerCase().includes(value) ? "" : "none";
         });
     });
 </script>
-
