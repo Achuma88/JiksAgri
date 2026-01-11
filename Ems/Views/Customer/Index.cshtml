@@ -1,5 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "CustomerHome";
+
+    var customerName = Context.Session.GetString("CustomerName");
+    var customerSurname = Context.Session.GetString("CustomerSurname");
 }
 
 @if (TempData["msg"] != null)
@@ -11,24 +14,29 @@
 
 <style>
     body {
-        background-color: #f8f9fa;
+       background-color:lightblue;
+    }
+
+    /* NAVBAR */
+    .navbar-brand {
+        font-size: 1.5rem;
     }
 
     /* HERO */
     .hero {
-        background-image: url("/images/c75.jpg");
+        background-image: url("/images/bc437060-cdac-11ef-94cb-5f844ceb9e30.jpg");
         background-size: cover;
         background-position: center;
-        height: 90vh;
+        height: 60vh;
         color: white;
         display: flex;
         align-items: center;
     }
 
     .hero-overlay {
-        background: rgba(0,0,0,0.55);
+        background: rgba(0,0,0,0.80);
         width: 100%;
-        height: 100%;
+        height: 70%;
         display: flex;
         align-items: center;
     }
@@ -86,9 +94,23 @@
             color: white;
         }
 
-    .carousel-control-next-icon{
-        background-color: #2f6f3e;
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: #1f5f3a; /* dark green */
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        background-size: 60%;
     }
+
+
+
+        .carousel-control-prev-icon:hover,
+        .carousel-control-next-icon:hover {
+            background-color: #2f6f3e;
+        }
+
+
     /* SELLER CTA */
     .seller-cta {
         background: linear-gradient(135deg, #2f6f3e, #6fa84f);
@@ -96,29 +118,104 @@
         padding: 60px 20px;
         border-radius: 20px;
     }
-    .carousel-control-prev-icon{
-        background-color: #2f6f3e;
-    }
-
+   
 </style>
 
-<!-- HERO -->
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+            🌾 JiksAgriFarm
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="topNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Products" asp-action="Index">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Livestock" asp-action="Index">Livestock</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav">
+                @if (!string.IsNullOrEmpty(customerName))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown">
+                            👤 @customerName @customerSurname
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" asp-controller="Customer" asp-action="Dashboard">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" asp-controller="Orders" asp-action="MyOrders">
+                                    My Orders
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <a class="dropdown-item text-danger" asp-controller="Customer" asp-action="Logout">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Customer" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Customer" asp-action="Register">Register</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ================= HERO ================= -->
 <section class="hero">
     <div class="hero-overlay">
         <div class="container text-center">
-            <h1>Buy Fresh. Sell Smart. Grow Together.</h1>
-            <p class="lead mt-3">
-                Connecting farmers directly to buyers across South Africa
-            </p>
+            @if (!string.IsNullOrEmpty(customerName))
+            {
+                <h1>Welcome, @customerName 👋</h1>
+                <p class="lead mt-3">Buy fresh. Sell smart. Grow together.</p>
+            }
+            else
+            {
+                <h1>Buy Fresh. Sell Smart. Grow Together.</h1>
+                <p class="lead mt-3">
+                    Connecting farmers directly to buyers across South Africa
+                </p>
+            }
+
             <div class="mt-4">
-                <a href="#" class="btn btn-success btn-lg me-3">Shop Products</a>
-                <a href="#" class="btn btn-outline-light btn-lg">Browse Livestock</a>
+                <a asp-controller="Products" asp-action="Index" class="btn btn-success btn-lg me-3">
+                    Shop Products
+                </a>
+                <a asp-controller="Livestock" asp-action="Index" class="btn btn-outline-light btn-lg">
+                    Browse Livestock
+                </a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- FEATURES -->
+<!-- ================= FEATURES ================= -->
 <section class="feature-strip text-center">
     <div class="container">
         <div class="row">
@@ -141,8 +238,90 @@
         </div>
     </div>
 </section>
+<section class="container my-5">
+    <h2 class="text-center mb-4">Shop by Category</h2>
 
-<!-- TRENDING PRODUCTS SLIDER -->
+    <div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+
+            <!-- SLIDE 1 -->
+            <div class="carousel-item active">
+                <div class="row g-4 justify-content-center text-center">
+
+                    <div class="col-md-2 col-6">
+                        <a asp-controller="Categories" asp-action="Crops"
+                           class="category-card d-block text-decoration-none">
+                            🌽 Crops
+                        </a>
+                    </div>
+
+                    <div class="col-md-2 col-6">
+                        <a asp-controller="Categories" asp-action="Vegetable"
+                           class="category-card d-block text-decoration-none">
+                            🥬 Vegetables
+                        </a>
+                    </div>
+
+                    <div class="col-md-2 col-6">
+                        <a asp-controller="Categories" asp-action="Poultry"
+                           class="category-card d-block text-decoration-none">
+                            🐓 Poultry
+                        </a>
+                    </div>
+
+                    <div class="col-md-2 col-6">
+                        <a asp-controller="Categories" asp-action="Cattle"
+                           class="category-card d-block text-decoration-none">
+                            🐄 Cattle
+                        </a>
+                    </div>
+
+                   
+
+                </div>
+            </div>
+
+            <!-- SLIDE 2 -->
+            <div class="carousel-item">
+                <div class="row g-4 justify-content-center text-center">
+
+                    <div class="col-md-2 col-6">
+                        <a asp-controller="Categories" asp-action="Produce"
+                           class="category-card d-block text-decoration-none">
+                            🧺 Produce
+                        </a>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <a asp-controller="Categories" asp-action="Goats"
+                           class="category-card d-block text-decoration-none">
+                            🐐 Goats
+                        </a>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <a asp-controller="Categories" asp-action="Tools"
+                           class="category-card d-block text-decoration-none">
+                            🚜 Tools
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CONTROLS -->
+        <button class="carousel-control-prev" type="button"
+                data-bs-target="#categoryCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button"
+                data-bs-target="#categoryCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</section>
+
 <section class="container my-5">
     <h2 class="text-center mb-4">🔥 Trending Farm Products</h2>
 
@@ -211,8 +390,6 @@
         </button>
     </div>
 </section>
-
-<!-- LIVESTOCK SLIDER -->
 <section class="container my-5">
     <h2 class="text-center mb-4">🐄 Livestock Marketplace</h2>
 
@@ -286,61 +463,13 @@
     </div>
 </section>
 
-<!-- CATEGORIES -->
-<section class="container my-5">
-    <h2 class="text-center mb-4">Shop by Category</h2>
-    <div class="row g-4 text-center">
-
-        <div class="col-md-2">
-            <a asp-controller="Categories" asp-action="Crops" class="category-card d-block text-decoration-none">
-                🌽 Crops
-            </a>
-        </div>
-
-        <div class="col-md-2">
-            <a asp-controller="Categories" asp-action="Vegetable" class="category-card d-block text-decoration-none">
-                🥬 Vegetables
-            </a>
-        </div>
-
-        <div class="col-md-2">
-            <a asp-controller="Categories" asp-action="Poultry" class="category-card d-block text-decoration-none">
-                🐓 Poultry
-            </a>
-        </div>
-
-        <div class="col-md-2">
-            <a asp-controller="Categories" asp-action="Cattle" class="category-card d-block text-decoration-none">
-                🐄 Cattle
-            </a>
-        </div>
-
-        <div class="col-md-2">
-            <a asp-controller="Categories" asp-action="Goats" class="category-card d-block text-decoration-none">
-                🐐 Goats
-            </a>
-        </div>
-
-        <div class="col-md-2">
-            <a asp-controller="Categories" asp-action="Produce" class="category-card d-block text-decoration-none">
-                🧺 Produce
-            </a>
-        </div>
-        <div class="col-md-2">
-            <a asp-controller="Categories" asp-action="Tools" class="category-card d-block text-decoration-none">
-                🚜 Tools & Equipment
-            </a>
-        </div>
-
-    </div>
-</section>
-
-
-<!-- SELLER CTA -->
+<!-- ================= SELLER CTA ================= -->
 <section class="container my-5">
     <div class="seller-cta text-center">
         <h2>Sell Your Farm Products Online</h2>
         <p class="lead">Join thousands of farmers growing their income</p>
-        <a href="/Customer/Register" class="btn btn-light btn-lg">Become a Seller</a>
+        <a asp-controller="Customer" asp-action="Register" class="btn btn-light btn-lg">
+            Become a Seller
+        </a>
     </div>
 </section>

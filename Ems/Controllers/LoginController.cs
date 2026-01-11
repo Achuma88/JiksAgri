@@ -1,4 +1,5 @@
 ﻿using JiksAgriFarm.Data.Repository;
+using JiksAgriFarm.Data.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JiksAgriFarm.UI.Controllers
@@ -9,24 +10,35 @@ namespace JiksAgriFarm.UI.Controllers
         private readonly IFarmerRepository _farmerRepo;
         private readonly ICustomerRepository _customerRepo;
 
-        public LoginController(IAdminRepository adminRepo, IFarmerRepository farmerRepo, ICustomerRepository customerRepo)
+        public LoginController(
+            IAdminRepository adminRepo,
+            IFarmerRepository farmerRepo,
+            ICustomerRepository customerRepo)
         {
             _adminRepo = adminRepo;
             _farmerRepo = farmerRepo;
             _customerRepo = customerRepo;
         }
 
-        // LOGIN PAGE
+        // GET
         public IActionResult Index()
         {
-            return View();
+            return View(new Login());
         }
 
-        // LOGIN POST
+        // POST
         [HttpPost]
-        public async Task<IActionResult> Index(string email, string password)
+        public async Task<IActionResult> Index(Login login)
         {
-            // 1️⃣ Admin Login
+            if (!ModelState.IsValid)
+            {
+                return View(login);
+            }
+
+            var email = login.CustomerEmail.Trim();
+            var password = login.CustomerPassword;
+
+            // 1️⃣ ADMIN LOGIN
             var admin = await _adminRepo.Login(email, password);
             if (admin != null)
             {
@@ -36,7 +48,7 @@ namespace JiksAgriFarm.UI.Controllers
                 return RedirectToAction("Dashboard", "Admin");
             }
 
-            // 2️⃣ Farmer Login
+            // 2️⃣ FARMER LOGIN
             var farmer = await _farmerRepo.Login(email, password);
             if (farmer != null)
             {
@@ -46,24 +58,25 @@ namespace JiksAgriFarm.UI.Controllers
                 if (farmer.FarmerStatus == "Pending")
                     return RedirectToAction("PendingVerification", "Farmer");
 
-                return RedirectToAction("FarmerHome", "Farmer");
+                return RedirectToAction("Dashboard", "Farmer");
             }
 
-            // 3️⃣ Customer Login
+            // 3️⃣ CUSTOMER LOGIN (YOUR LOGIC INCORPORATED ✅)
             var customer = await _customerRepo.Login(email, password);
             if (customer != null)
             {
                 HttpContext.Session.SetInt32("CustomerID", customer.CustomerID);
-                HttpContext.Session.SetString("Role", "Customer");
+                HttpContext.Session.SetString("CustomerName", customer.CustomerName);
+                HttpContext.Session.SetString("CustomerSurname", customer.CustomerSurname);
+                HttpContext.Session.SetString("CustomerEmail", customer.CustomerEmail);
+              
 
-                return RedirectToAction("CustomerHome", "Customer");
+                return RedirectToAction("Index", "Customer");
             }
 
-            // ❌ Login failed
-            ViewBag.Error = "Invalid email or password.";
-            return View();
+            // ❌ LOGIN FAILED
+            ModelState.AddModelError("", "Invalid Email or Password");
+            return View(login);
         }
-
-        
     }
 }

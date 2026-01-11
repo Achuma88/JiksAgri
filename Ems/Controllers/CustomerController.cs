@@ -47,5 +47,28 @@ namespace JiksAgriFarm.UI.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(Login login)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(login);
+            }
+            var customer = await _customerRepository.Login(login.CustomerEmail, login.CustomerPassword);
+            if (customer == null)
+            {
+                ModelState.AddModelError("", "Invalid Email or Password");
+                return View(login);
+            }
+            HttpContext.Session.SetInt32("CustomerID", customer.CustomerID);
+            HttpContext.Session.SetString("CustomerEmail", customer.CustomerEmail);
+
+            return RedirectToAction("Index");
+        }
     }
 }

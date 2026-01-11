@@ -1,12 +1,14 @@
 ﻿using JiksAgriFarm.Data.DataAccess;
 using JiksAgriFarm.Data.Models.Domain;
+using Microsoft.AspNetCore.Identity;
+using JiksAgriFarm.Data.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+
 
 
 namespace JiksAgriFarm.Data.Repository
@@ -112,13 +114,33 @@ namespace JiksAgriFarm.Data.Repository
             }
 
         }
-        public async Task<Customer> Login(string customerEmail, string customerPassword)
+        public async Task<Customer?> Login(string email, string password)
         {
-            var result = await _db.GetData<Customer, dynamic>(
+            // 1️⃣ Get customer by email
+            var customers = await _db.GetData<Customer, dynamic>(
                 "spCustomerLogin",
-                new { CustomerEmail = customerEmail, CustomerPassword = customerPassword }
+                new { CustomerEmail = email}
             );
-            return result.FirstOrDefault();
+
+            var customer = customers.FirstOrDefault();
+            if (customer == null)
+                return null;
+
+            // 2️⃣ Verify password
+            var passwordHasher = new PasswordHasher<Customer>();
+            var result = passwordHasher.VerifyHashedPassword(
+                customer,
+                customer.CustomerPassword, // hashed password from DB
+                password                     // plain password from user
+            );
+
+            // 3️⃣ Check result
+            return result == PasswordVerificationResult.Success
+                ? customer
+                : null;
         }
+
+
+
     }
 }
