@@ -5,39 +5,169 @@
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 
-<div class="row">
+<!-- ===================== -->
+<!-- TOP STATS SECTION -->
+<!-- ===================== -->
+<div class="row mb-4">
     <div class="col-md-3">
-        <div class="card shadow">
+        <div class="card shadow-sm border-0">
             <div class="card-body text-center">
-                <h6>Total Farmers</h6>
-                <h3>@Model.TotalFarmers</h3>
+                <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                <h6 class="text-muted">Total Farmers</h6>
+                <h3 class="fw-bold">@Model.TotalFarmers</h3>
             </div>
         </div>
     </div>
 
     <div class="col-md-3">
-        <div class="card shadow bg-success text-white">
+        <div class="card shadow-sm border-0 bg-success text-white">
             <div class="card-body text-center">
+                <i class="fas fa-check-circle fa-2x mb-2"></i>
                 <h6>Approved</h6>
-                <h3>@Model.ApprovedFarmers</h3>
+                <h3 class="fw-bold">@Model.ApprovedFarmers</h3>
             </div>
         </div>
     </div>
 
     <div class="col-md-3">
-        <div class="card shadow bg-warning text-dark">
+        <div class="card shadow-sm border-0 bg-warning text-dark">
             <div class="card-body text-center">
+                <i class="fas fa-clock fa-2x mb-2"></i>
                 <h6>Pending</h6>
-                <h3>@Model.PendingFarmers</h3>
+                <h3 class="fw-bold">@Model.PendingFarmers</h3>
             </div>
         </div>
     </div>
 
     <div class="col-md-3">
-        <div class="card shadow bg-danger text-white">
+        <div class="card shadow-sm border-0 bg-danger text-white">
             <div class="card-body text-center">
+                <i class="fas fa-user-slash fa-2x mb-2"></i>
                 <h6>Inactive</h6>
-                <h3>@Model.InactiveFarmers</h3>
+                <h3 class="fw-bold">@Model.InactiveFarmers</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== -->
+<!-- QUICK ACTIONS -->
+<!-- ===================== -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="mb-3">Quick Actions</h5>
+                <div class="d-flex flex-wrap gap-2">
+                    <a asp-controller="Farmer" asp-action="Pending"
+                       class="btn btn-outline-warning">
+                        <i class="fas fa-clock me-1"></i> Review Pending Farmers
+                    </a>
+
+                    <a asp-controller="Farmer" asp-action="Index"
+                       class="btn btn-outline-primary">
+                        <i class="fas fa-users me-1"></i> View All Farmers
+                    </a>
+
+                    <a asp-controller="Report" asp-action="Index"
+                       class="btn btn-outline-success">
+                        <i class="fas fa-chart-line me-1"></i> View Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== -->
+<!-- DASHBOARD CONTENT -->
+<!-- ===================== -->
+<div class="row">
+
+    <!-- SYSTEM OVERVIEW -->
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h5 class="mb-3">System Overview</h5>
+                <p class="text-muted">
+                    Welcome back 👋
+                    Use this dashboard to manage farmers, approvals, and reports.
+                </p>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Total Admins:</strong> @Model.TotalAdmins
+                    </li>
+                    <li class="list-group-item">
+                        <strong>System Status:</strong>
+                        <span class="badge bg-success">Operational</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECENT FARMERS -->
+    <div class="col-md-8 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h5 class="mb-3">Recent Farmers</h5>
+
+                @if (Model.RecentFarmers != null && Model.RecentFarmers.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Registered</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var farmer in Model.RecentFarmers)
+                                {
+                                    <tr>
+                                        <td>@farmer.FarmerName</td>
+
+                                        <td>
+                                            @if (farmer.FarmerStatus == "Approved")
+                                            {
+                                                <span class="badge bg-success">Approved</span>
+                                            }
+                                            else if (farmer.FarmerStatus == "Pending")
+                                            {
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Inactive</span>
+                                            }
+                                        </td>
+
+                                        <td>@farmer.RegisteredDate.ToString("dd MMM yyyy")</td>
+
+                                        <td>
+                                            <a asp-controller="Farmer"
+                                               asp-action="Details"
+                                               asp-route-id="@farmer.FarmerID"
+                                               class="btn btn-sm btn-outline-primary">
+                                                View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info mb-0">
+                        No recent farmers found.
+                    </div>
+                }
             </div>
         </div>
     </div>

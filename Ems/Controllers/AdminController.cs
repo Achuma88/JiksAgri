@@ -124,23 +124,12 @@ namespace JiksAgriFarm.UI.Controllers
         }
         public async Task<IActionResult> Dashboard()
         {
-            try
-            {
-                var stats = await _adminRepository.GetAdminStats();
-
-                if (stats == null)
-                {
-                    TempData["ErrorMessage"] = "Unable to load admin statistics.";
-                    return View(new Admin());
-                }
-
-                return View(stats);
-            }
-            catch (Exception)
-            {
-                TempData["ErrorMessage"] = "An error occurred while loading admin statistics.";
-                return View(new Admin());
-            }
+            var model = await _adminRepository.GetAdminStats();
+            return View(model);
         }
+
+
     }
+
 }
+

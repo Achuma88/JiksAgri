@@ -37,7 +37,19 @@ namespace JiksAgriFarm.Data.DataAccess
            commandType: CommandType.StoredProcedure
        );
         }
-       
+        public async Task<IEnumerable<T>> LoadData<T>(string storedProcedure, object parameters)
+        {
+            using var connection = new SqlConnection(
+                _config.GetConnectionString("Default")
+            );
+
+            return await connection.QueryAsync<T>(
+                storedProcedure,
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
 
 
 

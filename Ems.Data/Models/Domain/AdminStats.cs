@@ -12,7 +12,7 @@ namespace JiksAgriFarm.Data.Models.Domain
         public int ApprovedFarmers { get; set; }
         public int PendingFarmers { get; set; }
         public int InactiveFarmers { get; set; }
-
+        public List<RecentFarmer> RecentFarmers { get; set; }
         public int TotalAdmins { get; set; }
     }
 

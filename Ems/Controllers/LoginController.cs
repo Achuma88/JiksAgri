@@ -45,7 +45,7 @@ namespace JiksAgriFarm.UI.Controllers
                 HttpContext.Session.SetInt32("AdminID", admin.AdminID);
                 HttpContext.Session.SetString("Role", "Admin");
 
-                return RedirectToAction("Dashboard", "Admin");
+                return RedirectToAction("Index", "Admin");
             }
 
             // 2️⃣ FARMER LOGIN

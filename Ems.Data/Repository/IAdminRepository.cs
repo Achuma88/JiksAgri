@@ -16,6 +16,7 @@ namespace JiksAgriFarm.Data.Repository
         Task<IEnumerable<Farmer>> GetAllFarmers();
         Task<IEnumerable<Farmer>> SearchFarmerAsync(string searchTerm);
         Task<bool> ApproveFarmer(int farmerId, int adminId);
-        Task<dynamic> GetAdminStats();
+        Task<AdminStats> GetAdminStats();
+        Task<List<RecentFarmer>> GetRecentFarmers();
     }
 }

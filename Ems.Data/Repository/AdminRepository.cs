@@ -100,13 +100,43 @@ public class AdminRepository : IAdminRepository
         }
 
     }
-    public async Task<dynamic> GetAdminStats()
+    public async Task<AdminStats> GetAdminStats()
     {
-        return await _db.LoadDataSingle<dynamic>(
+        // Get stats (single row)
+        var statsResult = await _db.GetData<AdminStats, dynamic>(
             "spGetAdminStats",
             new { }
         );
+
+        var stats = statsResult.FirstOrDefault() ?? new AdminStats();
+
+        // Get recent farmers
+        var recentFarmers = await _db.GetData<RecentFarmer, dynamic>(
+            "spGetRecentFarmers",
+            new { }
+        );
+
+        stats.RecentFarmers = recentFarmers?.ToList() ?? new List<RecentFarmer>();
+
+        return stats;
     }
+
+    public async Task<List<RecentFarmer>> GetRecentFarmers()
+    {
+        var farmers = await _db.GetData<RecentFarmer, dynamic>(
+            "spGetRecentFarmers",
+            new { }
+        );
+
+        return farmers?.ToList() ?? new List<RecentFarmer>();
+    }
+
+
+
+
+
+
+
 
 
 
