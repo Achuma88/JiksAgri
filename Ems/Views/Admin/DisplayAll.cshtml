@@ -5,6 +5,7 @@
 }
 
 <style>
+    /* ================= PAGE BACKGROUND ================= */
     body {
         background-image: url("/images/bc437060-cdac-11ef-94cb-5f844ceb9e30.jpg");
         background-size: cover;
@@ -15,68 +16,138 @@
 
     .admin-overlay {
         min-height: 100vh;
-        padding-top: 90px;
+        padding-top: 100px;
     }
 
-    .navbar-admin {
-        background-color: #0f5132;
+    /* ================= CLEAN ADMIN NAVBAR ================= */
+    .admin-navbar {
+        background: rgba(15, 81, 50, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-        .navbar-admin .nav-link,
-        .navbar-admin .navbar-brand {
-            color: white;
-            font-weight: 500;
-        }
+    .admin-navbar .navbar-brand {
+        font-weight: 700;
+        color: green;
+        letter-spacing: 0.5px;
+    }
 
-            .navbar-admin .nav-link.active {
-                text-decoration: underline;
-            }
+    .admin-navbar .nav-link {
+        color: green !important;
+        font-weight: 500;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
 
+    .admin-navbar .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: #fff !important;
+    }
+
+    .admin-navbar .nav-link.active {
+        background-color: #ffffff;
+        color: #0f5132 !important;
+        font-weight: 600;
+    }
+
+    .admin-badge {
+        background-color: #198754;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    /* ================= FARMER CARDS ================= */
     .farmer-card {
-        transition: transform 0.3s;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-        .farmer-card:hover {
-            transform: translateY(-5px);
+    .farmer-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+        border-radius: 16px;
+    }
+
+    .card-footer {
+        border-top: none;
+    }
+    /* Center navbar links properly */
+    .navbar-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+        .navbar-center .nav-link {
+            margin: 0 6px;
         }
+
+
 </style>
 
-<!-- 🔝 ADMIN NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-admin fixed-top shadow">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold" asp-action="Index">JiksAgriFarm</a>
+<!-- ================= ADMIN NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg admin-navbar fixed-top shadow-sm">
+    <div class="container-fluid px-4 position-relative">
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+        <a class="navbar-brand" asp-action="Dashboard">
+            JiksAgriFarm
+        </a>
+
+        <button class="navbar-toggler text-white" type="button"
+                data-bs-toggle="collapse" data-bs-target="#adminNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="adminNavbar">
-            <ul class="navbar-nav me-auto">
+
+            <!-- CENTER LINKS -->
+            <ul class="navbar-nav navbar-center">
+                <li class="nav-item">
+                    <a class="nav-link active" asp-action="Index">Home</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="Dashboard">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" asp-action="DisplayAll">Farmers</a>
+                    <a class="nav-link active" asp-controller="Farmer" asp-action="Add">Regist a farmer</a>
                 </li>
             </ul>
 
-            <ul class="navbar-nav ms-auto">
+            <!-- RIGHT SIDE -->
+            <ul class="navbar-nav ms-auto align-items-center gap-3">
+                <li class="nav-item">
+                    <span class="admin-badge">Admin</span>
+                </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                        👤 Admin
+                        Account
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" asp-action="Profile">My Profile</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <a class="dropdown-item" asp-action="Profile">My Profile</a>
+                        </li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item text-danger" asp-action="Logout">Sign Out</a></li>
+                        <li>
+                            <a class="dropdown-item text-danger" asp-action="Logout">Sign Out</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
+
         </div>
     </div>
 </nav>
 
-<!-- 🧾 PAGE CONTENT -->
+
+<!-- ================= PAGE CONTENT ================= -->
 <div class="admin-overlay">
     <div class="container">
 
@@ -90,9 +161,9 @@
             <div class="alert alert-danger mt-3">@TempData["ErrorMessage"]</div>
         }
 
-        <h4 class="fw-bold mt-4 mb-3">Registered Farmers</h4>
+        <h4 class="fw-bold mb-3 text-white">Registered Farmers</h4>
 
-        <div class="row mb-3">
+        <div class="row mb-4">
             <div class="col-md-6">
                 <input id="farmerSearch" class="form-control"
                        placeholder="Search farmers..." />
@@ -113,11 +184,11 @@
                             <p><strong>Location:</strong> @farmer.FarmerLocation</p>
 
                             <span class="badge
-                                    @(farmer.FarmerStatus == "Active" ? "bg-success" :
-                                                                    farmer.FarmerStatus == "Pending" ? "bg-warning text-dark" : "bg-danger")">
-                            @farmer.FarmerStatus
-                        </span>
-                    </div>
+                                @(farmer.FarmerStatus == "Active" ? "bg-success" :
+                                  farmer.FarmerStatus == "Pending" ? "bg-warning text-dark" : "bg-danger")">
+                                @farmer.FarmerStatus
+                            </span>
+                        </div>
 
                         <div class="card-footer bg-transparent d-flex justify-content-between">
                             <a asp-action="Details"
@@ -126,7 +197,7 @@
                                 View
                             </a>
 
-                        @if (!farmer.IsVerified)
+                            @if (!farmer.IsVerified)
                             {
                                 <a asp-action="ApproveFarmer"
                                    asp-route-id="@farmer.FarmerID"

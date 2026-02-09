@@ -21,6 +21,7 @@ namespace JiksAgriFarm.UI.Controllers
         }
 
         // GET
+        [HttpGet]
         public IActionResult Index()
         {
             return View(new Login());
@@ -28,40 +29,54 @@ namespace JiksAgriFarm.UI.Controllers
 
         // POST
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(Login login)
         {
             if (!ModelState.IsValid)
+                return View(login);
+
+            string email = login.CustomerEmail?.Trim();
+            string password = login.CustomerPassword;
+
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
+                ModelState.AddModelError("", "Email and password are required.");
                 return View(login);
             }
 
-            var email = login.CustomerEmail.Trim();
-            var password = login.CustomerPassword;
-
-            // 1️⃣ ADMIN LOGIN
+            /* ================= ADMIN LOGIN ================= */
             var admin = await _adminRepo.Login(email, password);
             if (admin != null)
             {
                 HttpContext.Session.SetInt32("AdminID", admin.AdminID);
+                HttpContext.Session.SetString("AdminEmail", admin.AdminEmail);
                 HttpContext.Session.SetString("Role", "Admin");
 
                 return RedirectToAction("Index", "Admin");
             }
 
-            // 2️⃣ FARMER LOGIN
+            /* ================= FARMER LOGIN ================= */
             var farmer = await _farmerRepo.Login(email, password);
             if (farmer != null)
             {
                 HttpContext.Session.SetInt32("FarmerID", farmer.FarmerID);
                 HttpContext.Session.SetString("Role", "Farmer");
 
-                if (farmer.FarmerStatus == "Pending")
-                    return RedirectToAction("PendingVerification", "Farmer");
+                // ✅ NULL-SAFE SESSION SET
+                if (!string.IsNullOrEmpty(farmer.FarmerEmail))
+                    HttpContext.Session.SetString("FarmerEmail", farmer.FarmerEmail);
 
-                return RedirectToAction("Dashboard", "Farmer");
+                if (!string.IsNullOrEmpty(farmer.FarmerStatus))
+                    HttpContext.Session.SetString("FarmerStatus", farmer.FarmerStatus);
+
+                if (farmer.FarmerStatus == "Pending" || farmer.FarmerStatus == "Rejected")
+                    return RedirectToAction("TrackApplication", "Farmer");
+
+                return RedirectToAction("Index", "Farmer");
             }
 
-            // 3️⃣ CUSTOMER LOGIN (YOUR LOGIC INCORPORATED ✅)
+
+            /* ================= CUSTOMER LOGIN ================= */
             var customer = await _customerRepo.Login(email, password);
             if (customer != null)
             {
@@ -69,13 +84,13 @@ namespace JiksAgriFarm.UI.Controllers
                 HttpContext.Session.SetString("CustomerName", customer.CustomerName);
                 HttpContext.Session.SetString("CustomerSurname", customer.CustomerSurname);
                 HttpContext.Session.SetString("CustomerEmail", customer.CustomerEmail);
-              
+                HttpContext.Session.SetString("Role", "Customer");
 
                 return RedirectToAction("Index", "Customer");
             }
 
-            // ❌ LOGIN FAILED
-            ModelState.AddModelError("", "Invalid Email or Password");
+            /* ================= LOGIN FAILED ================= */
+            ModelState.AddModelError("", "Invalid email or password.");
             return View(login);
         }
     }

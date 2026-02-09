@@ -118,54 +118,85 @@
         padding: 60px 20px;
         border-radius: 20px;
     }
+    /* Center navbar links properly */
+    .navbar-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+        .navbar-center .nav-link {
+            margin: 0 8px;
+            font-weight: 500;
+        }
+
    
 </style>
 
 <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
-    <div class="container">
+    <div class="container position-relative">
+
+        <!-- BRAND (LEFT) -->
         <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
             🌾 JiksAgriFarm
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#topNav">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="topNav">
-            <ul class="navbar-nav me-auto">
+
+            <!-- CENTER NAV LINKS -->
+            <ul class="navbar-nav navbar-center">
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Products" asp-action="Index">Products</a>
+                    <a class="nav-link" asp-controller="Categories" asp-action="Index">
+                        Categories
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Livestock" asp-action="Index">Livestock</a>
+                    <a class="nav-link" asp-controller="Products" asp-action="Index">
+                        Products
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a>
+                    <a class="nav-link" asp-controller="Livestock" asp-action="Index">
+                        Livestock 
+                    </a>
                 </li>
+               
             </ul>
 
-            <ul class="navbar-nav">
+            <!-- RIGHT SIDE -->
+            <ul class="navbar-nav ms-auto align-items-center">
                 @if (!string.IsNullOrEmpty(customerName))
                 {
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle fw-semibold"
+                           href="#" role="button" data-bs-toggle="dropdown">
                             👤 @customerName @customerSurname
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li>
-                                <a class="dropdown-item" asp-controller="Customer" asp-action="Dashboard">
+                                <a class="dropdown-item"
+                                   asp-controller="Customer" asp-action="Dashboard">
                                     Dashboard
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" asp-controller="Orders" asp-action="MyOrders">
+                                <a class="dropdown-item"
+                                   asp-controller="Orders" asp-action="MyOrders">
                                     My Orders
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider" /></li>
                             <li>
-                                <a class="dropdown-item text-danger" asp-controller="Customer" asp-action="Logout">
+                                <a class="dropdown-item text-danger"
+                                   asp-controller="Customer" asp-action="Logout">
                                     Logout
                                 </a>
                             </li>
@@ -175,16 +206,24 @@
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Customer" asp-action="Login">Login</a>
+                        <a class="nav-link"
+                           asp-controller="Customer" asp-action="Login">
+                            Login
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Customer" asp-action="Register">Register</a>
+                        <a class="nav-link"
+                           asp-controller="Customer" asp-action="Register">
+                            Register
+                        </a>
                     </li>
                 }
             </ul>
+
         </div>
     </div>
 </nav>
+
 
 <!-- ================= HERO ================= -->
 <section class="hero">

@@ -130,6 +130,24 @@ public class AdminRepository : IAdminRepository
 
         return farmers?.ToList() ?? new List<RecentFarmer>();
     }
+    public async Task RejectFarmer(int farmerId, string rejectionReason, int adminId)
+    {
+        try
+        {
+            await _db.SaveData("spRejectFarmer", new
+            {
+                FarmerID = farmerId,
+                RejectionReason = rejectionReason,
+                AdminID = adminId
+            });
+        }
+        catch (Exception ex)
+        {
+            // Log exception if needed
+            throw;
+        }
+    }
+   
 
 
 

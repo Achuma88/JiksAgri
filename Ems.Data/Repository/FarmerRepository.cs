@@ -108,5 +108,36 @@ namespace JiksAgriFarm.Data.Repository
             );
             return result.FirstOrDefault();
         }
+        public async Task<Farmer> GetByEmail(string farmerEmail)
+        {
+            var result = await _db.GetData<Farmer, dynamic>(
+                "spTrackFarmerApplication",
+                new { FarmerEmail = farmerEmail }
+            );
+            return result.FirstOrDefault();
+        }
+        public async Task<bool> ReapplyAsync(Farmer farmer)
+        {
+            try
+            {
+                await _db.SaveData("spReapplyFarmer", new
+                {
+                    farmer.FarmerID,
+                    farmer.FarmerName,
+                    farmer.FarmName,
+                    farmer.FarmerPhone,
+                    farmer.FarmerLocation,
+                    farmer.DocumentPath,
+                    farmer.DocumentFileName
+                });
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }

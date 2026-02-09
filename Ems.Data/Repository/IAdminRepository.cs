@@ -18,5 +18,7 @@ namespace JiksAgriFarm.Data.Repository
         Task<bool> ApproveFarmer(int farmerId, int adminId);
         Task<AdminStats> GetAdminStats();
         Task<List<RecentFarmer>> GetRecentFarmers();
+        Task RejectFarmer(int farmerId, string rejectionReason, int adminId);
+      
     }
 }

@@ -17,5 +17,7 @@ namespace JiksAgriFarm.Data.Repository
         Task<bool> DeleteAsync(int id);
         Task<Farmer> GetFarmerByEmailAsync(string email);
         Task<Farmer> Login(string farmerEmail, string farmerPassword);
+        Task<Farmer> GetByEmail(string farmerEmail);
+        Task<bool> ReapplyAsync(Farmer farmer);
     }
 }

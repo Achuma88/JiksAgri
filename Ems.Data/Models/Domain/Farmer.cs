@@ -20,5 +20,10 @@ namespace JiksAgriFarm.Data.Models.Domain
         public DateTime RegisteredDate { get; set; }
         public string FarmerStatus { get; set; }
         public bool IsVerified { get; set; }
+        public string? DocumentPath { get; set; }
+
+        // Optional: store original filename
+        public string? DocumentFileName { get; set; }
+        public string? RejectionReason { get; set; }
     }
 }

@@ -1,0 +1,99 @@
+﻿@model JiksAgriFarm.Data.Models.Domain.Farmer
+
+@{
+    ViewData["Title"] = "Application Status";
+
+    string badgeClass = Model.FarmerStatus switch
+    {
+        "Approved" => "badge bg-success",
+        "Rejected" => "badge bg-danger",
+        "Pending" => "badge bg-warning text-dark",
+        _ => "badge bg-secondary"
+    };
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">Farmer Application Status</h4>
+        </div>
+
+        <div class="card-body">
+            <!-- Status Badge -->
+            <div class="mb-4 text-center">
+                <span class="@badgeClass px-4 py-2 fs-6">
+                    @Model.FarmerStatus
+                </span>
+            </div>
+
+            <!-- Farmer Information -->
+            <h5 class="text-success mb-3">Farmer Information</h5>
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <strong>Farmer Name:</strong> @Model.FarmerName
+                </div>
+                <div class="col-md-6">
+                    <strong>Farm Name:</strong> @Model.FarmName
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <strong>Email:</strong> @Model.FarmerEmail
+                </div>
+                <div class="col-md-6">
+                    <strong>Phone:</strong> @Model.FarmerPhone
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <strong>Location:</strong> @Model.FarmerLocation
+                </div>
+            </div>
+
+            <!-- Rejection Reason -->
+            @if (Model.FarmerStatus == "Rejected")
+            {
+                <div class="alert alert-danger mt-3">
+                    <strong>Reason for Rejection:</strong><br />
+                    @Model.RejectionReason
+                </div>
+            }
+
+            <!-- Pending Message -->
+            @if (Model.FarmerStatus == "Pending")
+            {
+                <div class="alert alert-warning mt-3">
+                    <strong>Your application is still under review.</strong><br />
+                    Please allow our admin team time to verify your details.
+                </div>
+            }
+
+            <!-- Approved Message -->
+            @if (Model.FarmerStatus == "Approved")
+            {
+                <div class="alert alert-success mt-3">
+                    <strong>Congratulations!</strong><br />
+                    Your application has been approved.
+                </div>
+            }
+        </div>
+
+        <div class="card-footer text-center">
+            @if (Model.FarmerStatus == "Rejected")
+            {
+                <a asp-controller="Farmer" asp-action="Reapply" class="btn btn-danger">
+                    Reapply
+                </a>
+            }
+
+            @if (Model.FarmerStatus == "Pending")
+            {
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+                    Back to Home
+                </a>
+            }
+        </div>
+    </div>
+</div>

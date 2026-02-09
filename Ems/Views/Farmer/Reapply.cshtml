@@ -1,0 +1,138 @@
+﻿@model JiksAgriFarm.Data.Models.Domain.Farmer
+
+@{
+    ViewData["Title"] = "Reapply";
+}
+
+<style>
+    body {
+        background-image: url("/images/bc437060-cdac-11ef-94cb-5f844ceb9e30.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <div class="card shadow-lg border-0" style="border-radius: 15px;">
+                <div class="card-body p-4">
+
+                    <h3 class="text-center mb-4" style="color: midnightblue; font-weight: bold;">
+                        <i class="fas fa-tractor me-2"></i>Reapply as a Farmer
+                    </h3>
+
+                    <form asp-action="Reapply" method="post" enctype="multipart/form-data">
+
+                        @Html.AntiForgeryToken()
+
+                        <!-- Farmer Name -->
+                        <label class="fw-bold">Full Name</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input asp-for="FarmerName" class="form-control" />
+                        </div>
+
+                        <!-- Farm Name -->
+                        <label class="fw-bold">Farm Name</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-seedling"></i>
+                            </span>
+                            <input asp-for="FarmName" class="form-control" />
+                        </div>
+
+                        <!-- Email (readonly – important) -->
+                        <label class="fw-bold">Email</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <input asp-for="FarmerEmail"
+                                   class="form-control"
+                                   readonly />
+                        </div>
+
+                        <!-- Phone -->
+                        <label class="fw-bold">Phone</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-phone"></i>
+                            </span>
+                            <input asp-for="FarmerPhone" class="form-control" />
+                        </div>
+
+                        <!-- Location -->
+                        <label class="fw-bold">Farm Location</label>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </span>
+                            <input asp-for="FarmerLocation" class="form-control" />
+                        </div>
+
+                        <!-- Document Upload -->
+                        <label class="fw-bold">Upload Farm Ownership Document (PDF / JPG)</label>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-file-upload"></i>
+                            </span>
+                            <input type="file"
+                                   name="DocumentUpload"
+                                   class="form-control"
+                                   required />
+                        </div>
+
+                        <!-- Hidden Fields -->
+                        <input type="hidden" asp-for="FarmerID" />
+                        <input type="hidden" asp-for="FarmerPassword" />
+                        <input type="hidden" name="FarmerStatus" value="Pending" />
+                        <input type="hidden" name="IsVerified" value="false" />
+
+                        <button type="submit"
+                                class="btn w-100 text-white"
+                                style="background-color: #4b7f49; font-weight: bold;">
+                            <i class="fas fa-redo me-1"></i>Submit Reapplication
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-success">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Success</h5>
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    @TempData["SuccessMessage"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-success"
+                            data-bs-dismiss="modal">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var modal = new bootstrap.Modal(document.getElementById('successModal'));
+        modal.show();
+    </script>
+}

@@ -1,38 +1,244 @@
 ﻿@model JiksAgriFarm.Data.Models.Domain.Farmer
+
 @{
-    ViewData["Title"] = "Admin";
+    ViewData["Title"] = "Approve Farmer";
 }
-<div class="container mt-5">
-    <div class="card shadow-lg border-0">
-        <div class="card-header bg-success text-white">
-            <h5 class="mb-0">Approve Farmer</h5>
+
+<style>
+    body {
+        padding-top: 90px;
+        background-color: #f8f9fa;
+    }
+
+    /* CENTER NAV LINKS */
+    .navbar-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 20px;
+    }
+
+        .navbar-center .nav-link {
+            margin: 0 8px;
+            font-weight: 500;
+        }
+
+    /* INFO STYLES */
+    .info-label {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .info-value {
+        color: #222;
+    }
+
+    .status-badge {
+        font-size: 0.85rem;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+</style>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg admin-navbar fixed-top shadow-sm bg-white">
+    <div class="container-fluid px-4 position-relative">
+
+        <a class="navbar-brand fw-bold text-success" asp-action="Dashboard">
+            🌾 JiksAgriFarm
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="adminNavbar">
+
+            <!-- CENTER LINKS -->
+            <ul class="navbar-nav navbar-center">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-success"
+                       asp-controller="Farmer"
+                       asp-action="Add">
+                        Register Farmer
+                    </a>
+                </li>
+            </ul>
+
+            <!-- RIGHT -->
+            <ul class="navbar-nav ms-auto align-items-center gap-3">
+                <li class="nav-item">
+                    <span class="badge bg-success">Admin</span>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <a class="dropdown-item" asp-action="Profile">My Profile</a>
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item text-danger" asp-action="Logout">Sign Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
         </div>
+    </div>
+</nav>
 
-        <div class="card-body">
-            <p><strong>Name:</strong> @Model.FarmerName</p>
-            <p><strong>Farm Name:</strong> @Model.FarmName</p>
-            <p><strong>Email:</strong> @Model.FarmerEmail</p>
-            <p><strong>Phone:</strong> @Model.FarmerPhone</p>
-            <p><strong>Location:</strong> @Model.FarmerLocation</p>
+<!-- ================= PAGE CONTENT ================= -->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
 
-            <!-- ✅ CORRECT POST FORM -->
-            <form asp-controller="Admin"
-                  asp-action="ApproveFarmerConfirmed"
-                  asp-route-id="@Model.FarmerID"
-                  method="post">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Approve Farmer</h5>
 
-                @Html.AntiForgeryToken()
+                    @if (Model.FarmerStatus == "Approved")
+                    {
+                        <span class="status-badge bg-light text-success">✔ Approved</span>
+                    }
+                    else if (Model.FarmerStatus == "Rejected")
+                    {
+                        <span class="status-badge bg-danger text-white">✖ Rejected</span>
+                    }
+                    else
+                    {
+                        <span class="status-badge bg-warning text-dark">Pending Verification</span>
+                    }
+                </div>
 
-                <button type="submit" class="btn btn-sm btn-outline-success">
-                    Verify
-                </button>
+                <div class="card-body">
 
-                <a asp-controller="Admin"
-                   asp-action="DisplayAll"
-                   class="btn btn-secondary ms-2">
-                    Cancel
-                </a>
-            </form>
+                    <!-- FARMER INFO -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="info-label">Farmer Name</p>
+                            <p class="info-value">@Model.FarmerName</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="info-label">Farm Name</p>
+                            <p class="info-value">@Model.FarmName</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="info-label">Email</p>
+                            <p class="info-value">@Model.FarmerEmail</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="info-label">Phone</p>
+                            <p class="info-value">@Model.FarmerPhone</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="info-label">Location</p>
+                        <p class="info-value">@Model.FarmerLocation</p>
+                    </div>
+
+                    <!-- DOCUMENT SECTION -->
+                    <div class="mb-4">
+                        <p class="info-label">Farm Documents</p>
+
+                        @if (!string.IsNullOrEmpty(Model.DocumentPath))
+                        {
+                            <a asp-controller="Admin"
+                               asp-action="ViewFarmerDocument"
+                               asp-route-id="@Model.FarmerID"
+                               class="btn btn-outline-secondary btn-sm">
+                                📄 View / Download Document
+                            </a>
+                        }
+                        else
+                        {
+
+                            <span class="text-danger fw-semibold">
+                                No document uploaded
+                            </span>
+                        }
+                    </div>
+
+                    <!-- APPROVE FORM -->
+                    <form asp-controller="Admin"
+                          asp-action="ApproveFarmerConfirmed"
+                          asp-route-id="@Model.FarmerID"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="btn btn-success px-4">
+                            ✔ Verify Farmer
+                        </button>
+
+                        <a asp-controller="Admin"
+                           asp-action="DisplayAll"
+                           class="btn btn-outline-secondary px-4 ms-2">
+                            Cancel
+                        </a>
+                    </form>
+
+                    <!-- REJECT SECTION -->
+                    <hr class="my-4" />
+
+                    <h6 class="fw-bold text-danger">Reject Farmer</h6>
+
+                    <form asp-controller="Admin"
+                          asp-action="RejectFarmer"
+                          asp-route-id="@Model.FarmerID"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Reason for rejection
+                            </label>
+
+                            <select name="rejectionReason"
+                                    class="form-select"
+                                    required>
+                                <option value="">-- Select reason --</option>
+                                <option value="Upload farm documents">
+                                    Upload farm documents
+                                </option>
+                                <option value="Invalid contact details">
+                                    Invalid contact details
+                                </option>
+                                <option value="Incomplete registration">
+                                    Incomplete registration
+                                </option>
+                                <option value="Location could not be verified">
+                                    Location could not be verified
+                                </option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-outline-danger">
+                            ✖ Reject Farmer
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
