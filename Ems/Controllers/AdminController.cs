@@ -98,39 +98,23 @@ namespace JiksAgriFarm.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ApproveFarmerConfirmed(
-           int id,
-           string actionType,
-           string? rejectionReason)
+        public async Task<IActionResult> ApproveFarmerConfirmed(int id)
         {
             int? adminId = HttpContext.Session.GetInt32("AdminID");
             if (adminId == null)
                 return RedirectToAction("Login");
 
-            if (actionType == "approve")
-            {
-                bool success = await _adminRepository.ApproveFarmer(id, adminId.Value);
+            bool success = await _adminRepository.ApproveFarmer(id, adminId.Value);
 
-                if (success)
-                    TempData["SuccessMessage"] = "Farmer approved successfully.";
-                else
-                    TempData["ErrorMessage"] = "Approval failed.";
-            }
-            else if (actionType == "reject")
-            {
-                if (string.IsNullOrWhiteSpace(rejectionReason))
-                {
-                    TempData["ErrorMessage"] = "Please provide a reason for rejection.";
-                    return RedirectToAction("ApproveFarmer", new { id });
-                }
-
-                await _adminRepository.RejectFarmer(id, rejectionReason, adminId.Value);
-
-                TempData["SuccessMessage"] = "Farmer rejected with feedback.";
-            }
+            if (success)
+                TempData["SuccessMessage"] = "Farmer approved successfully.";
+            else
+                TempData["ErrorMessage"] = "Approval failed. Please try again.";
 
             return RedirectToAction("DisplayAll");
         }
+
+
 
 
         /* ============================================================
